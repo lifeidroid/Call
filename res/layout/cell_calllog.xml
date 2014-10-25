@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/iv_cellCallLog_type"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/tv_cellCallLog_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/iv_cellCallLog_type" />
+
+        <TextView
+            android:id="@+id/tv_cellCallLog_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_cellCallLog_name"
+            android:layout_toRightOf="@id/iv_cellCallLog_type"
+            android:textColor="@color/DarkGray" />
+
+        <ImageView
+            android:id="@+id/iv_cellCallLog_right"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/callog_jiantou"
+            android:layout_margin="15dp" />
+
+        <TextView
+            android:id="@+id/tv_cellCallLog_line"
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/WhiteSmoke"
+            android:layout_toLeftOf="@id/iv_cellCallLog_right" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/tv_cellCallLog_time"
+            android:layout_toLeftOf="@id/tv_cellCallLog_line"
+            android:textColor="@color/DarkGray" />
+    </RelativeLayout>
+
+</LinearLayout>

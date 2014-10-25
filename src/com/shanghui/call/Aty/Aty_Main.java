@@ -30,6 +30,10 @@ public class Aty_Main extends FragmentActivity {
 	}
 	private void initViews(){
 		rg_aty_main_selecte =(RadioGroup)findViewById(R.id.rg_aty_main_switch);
+		fTransaction = fManager.beginTransaction();
+		frg_Call = new Frg_Call();
+		fTransaction.replace(R.id.lay_aty_main_container, frg_Call);
+		fTransaction.commit();
 	}
 	private void initLiteners(){
 		rg_aty_main_selecte.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {		

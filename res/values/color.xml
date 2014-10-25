@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bule">#3399FF</color>
+<!--     <color name="bule">#3399FF</color> -->
     <color name="white">#ffffff</color>
     <color name="Gray">#808080</color>
+    <color name="WhiteSmoke">#F5F5F5</color><!-- 白烟 -->
+    <color name="DarkGray">#A9A9A9</color><!--深灰色 -->
+    <color name="light_Gray">#eeeeee</color>
+    <color name="dark_Gray">#e5e5e5</color>
+    <color name="light_Blank">#898989</color>
+    <color name="bule">#00abee</color>
+    <color name="light_Bule">#33CCFF</color>
+    <color name="Blank">#434343</color>
+    <color name="HotPink">#FF69B4</color>
 </resources>

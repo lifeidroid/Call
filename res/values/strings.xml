@@ -4,5 +4,10 @@
     <string name="app_name">Call</string>
     <string name="hello_world">Hello world!</string>
     <string name="call">打电话</string>
+    <string name="recent_call">通话记录</string>
+    <string name="refresh">刷新</string>
+    <string name="cancel">取消</string>
+    <string name="shanghuitong_call">商惠通拨打</string>
+    <string name="wifi_call">wifi直接拨打</string>
 
 </resources>
