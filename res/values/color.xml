@@ -12,4 +12,6 @@
     <color name="light_Bule">#33CCFF</color>
     <color name="Blank">#434343</color>
     <color name="HotPink">#FF69B4</color>
+    <color name="DimGray">#696969</color><!-- 暗淡的灰色 -->
+    <color name="Gold">#FFD700</color><!-- 金色 -->
 </resources>
