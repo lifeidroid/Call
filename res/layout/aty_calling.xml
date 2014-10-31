@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/direct_bg" >
+
+    <TextView
+        android:id="@+id/tv_atyCalling_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/call_status"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <com.shanghui.call.Tools.RoundImageView
+        android:id="@+id/riv_atyCalling_head"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/tv_atyCalling_title"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/img_user" />
+
+    <TextView
+        android:id="@+id/tv_atyCalling_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/riv_atyCalling_head"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tv_atyCalling_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_atyCalling_name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_atyCalling_num"
+        android:layout_centerHorizontal="true"
+        android:text="@string/connecting_to_server"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/direct_handsfree_press"
+            android:background="@drawable/calling_btn_handsfree" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:background="@drawable/calling_btn_call"
+            android:layout_weight="1"
+            android:text="挂断"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/direct_mute_press"
+            android:background="@drawable/calling_btn_handsfree"  />
+    </LinearLayout>
+
+</RelativeLayout>

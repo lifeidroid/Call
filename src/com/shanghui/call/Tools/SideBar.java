@@ -17,9 +17,9 @@ public class SideBar extends View {
 	// 触摸事件
 	private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
 	// 26个字母
-	public static String[] b = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
+	public static String[] b = { "#", "A", "B", "C", "D", "E", "F", "G", "H", "I",
 			"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-			"W", "X", "Y", "Z", "#" };
+			"W", "X", "Y", "Z"};
 	private int choose = -1;// 选中
 	private Paint paint = new Paint();
 
@@ -53,14 +53,13 @@ public class SideBar extends View {
 		int singleHeight = height / b.length;// 获取每一个字母的高度
 
 		for (int i = 0; i < b.length; i++) {
-			paint.setColor(Color.rgb(33, 65, 98));
-			// paint.setColor(Color.WHITE);
+			paint.setColor(Color.rgb(150, 150, 150));
 			paint.setTypeface(Typeface.DEFAULT_BOLD);
 			paint.setAntiAlias(true);
-			paint.setTextSize(20);
+			paint.setTextSize(35);
 			// 选中的状态
 			if (i == choose) {
-				paint.setColor(Color.parseColor("#3399ff"));
+				paint.setColor(Color.parseColor("#00abee"));
 				paint.setFakeBoldText(true);
 			}
 			// x坐标等于中间-字符串宽度的一半.

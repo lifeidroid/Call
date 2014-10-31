@@ -1,30 +1,37 @@
 package com.shanghui.call.Aty;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.PhoneLookup;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -36,19 +43,26 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shanghui.call.Config;
 import com.shanghui.call.R;
+import com.shanghui.call.Adp.Adp_Friends_Main_List;
+import com.shanghui.call.Mdl.Mdl_Contact;
 import com.shanghui.call.Tools.CharacterParser;
 import com.shanghui.call.Tools.ClearEditText;
 import com.shanghui.call.Tools.GroupMemberBean;
 import com.shanghui.call.Tools.PinyinComparator;
 import com.shanghui.call.Tools.SideBar;
 import com.shanghui.call.Tools.SideBar.OnTouchingLetterChangedListener;
-
+/**
+ * 联系人模块
+ * @author shanghui
+ *
+ */
 public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 	private ListView sortListView;
 	private SideBar sideBar;
 	private TextView dialog;
-	private SortGroupMemberAdapter adapter;
+	private Adp_Friends_Main_List adapter;
 	private ClearEditText mClearEditText;
 	private View view;
 	private View dlgView;
@@ -56,13 +70,17 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 	private LinearLayout titleLayout;
 	private TextView title;
 	private TextView tvNofriends;
-	private App_Main app_Main;
-	private List<Map<String, String>> contentMapList = new ArrayList<Map<String,String>>() ;
-	private Map<String, String> contentMap ;
-	private List<String> contentName = new ArrayList<String>();
 	private Button btn_DlgwifiCall;
 	private Button btn_DlgshanghuiCall;
 	private Button btn_Dlgcancel;
+	private GroupMemberBean mGroupMemberBean;
+	private static Toast mToast;
+	private static View toastView;
+	private static TextView tv_toastText;
+	private boolean showDialog = false;
+	private List<Mdl_Contact> contactList;
+	private App_Main app_Main;
+	private Intent intent;
 	/**
 	 * 上次第一个可见元素，用于滚动时记录标识。
 	 */
@@ -78,6 +96,26 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 	 */
 	private PinyinComparator pinyinComparator;
 
+	
+	
+	
+	/** 获取库Phon表字段 **/
+	private static final String[] PHONES_PROJECTION = new String[] {
+			Phone.DISPLAY_NAME, Phone.NUMBER, Photo.PHOTO_ID, Phone.CONTACT_ID };
+
+	/** 联系人显示名称 **/
+	private static final int PHONES_DISPLAY_NAME_INDEX = 0;
+
+	/** 电话号码 **/
+	private static final int PHONES_NUMBER_INDEX = 1;
+
+	/** 头像ID **/
+	private static final int PHONES_PHOTO_ID_INDEX = 2;
+
+	/** 联系人的ID **/
+	private static final int PHONES_CONTACT_ID_INDEX = 3;
+
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		initValues();
@@ -92,12 +130,15 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 	}
 	private void initValues(){
 		app_Main = (App_Main) getActivity().getApplication();
-		contentMapList.addAll(app_Main.getContentMapList());
-		contentName.addAll(app_Main.getContentName());
+		contactList = app_Main.getContactList();
+		//getPhoneContacts();
 	}
 	private void initViews() {
+		sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
 		titleLayout = (LinearLayout) view.findViewById(R.id.title_layout);
+		//顶部字母显示
 		title = (TextView) view.findViewById(R.id.title_layout_catalog);
+		//没有匹配的联系人
 		tvNofriends = (TextView) view.findViewById(R.id.title_layout_no_friends);
 		// 实例化汉字转拼音类
 		characterParser = CharacterParser.getInstance();
@@ -122,65 +163,98 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 			}
 		});
 
-		sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
+	
 		sortListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-				Toast.makeText(getActivity(),
-						((GroupMemberBean) adapter.getItem(position)).getName(),
-						Toast.LENGTH_SHORT).show();
-				showDialog();
+					mGroupMemberBean = (GroupMemberBean)adapter.getItem(position);
+					intent = new Intent(getActivity(),Aty_ContentInfo.class);
+					intent.putExtra(Config.KEY_NAME,mGroupMemberBean.getContact().getName());
+					intent.putExtra(Config.KEY_NUM, mGroupMemberBean.getContact().getPhoneNum());
+					intent.putExtra(Config.KEY_HEAD, mGroupMemberBean.getContact().getHead());
+					intent.putExtra(Config.KEY_ID, mGroupMemberBean.getContact().getPeopleId());
+					startActivity(intent);
+			}
+		});
+		sortListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				mGroupMemberBean = (GroupMemberBean)adapter.getItem(position);
+				showDialog(mGroupMemberBean.getContact().getName(),
+						mGroupMemberBean.getContact().getPhoneNum(),
+						mGroupMemberBean.getContact().getHead());
+				return false;
 			}
 		});
 		//获取联系人数据
-		SourceDateList = filledData(contentName);
+		SourceDateList = filledData(contactList);
 
 		// 根据a-z进行排序源数据
 		Collections.sort(SourceDateList, pinyinComparator);
-		adapter = new SortGroupMemberAdapter(getActivity(), SourceDateList);
+		adapter = new Adp_Friends_Main_List(getActivity(), SourceDateList);
 		sortListView.setAdapter(adapter);
 		sortListView.setOnScrollListener(new OnScrollListener() {
 			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-			}
-
-			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				int section = getSectionForPosition(firstVisibleItem);
-				int nextSection = getSectionForPosition(firstVisibleItem + 1);
-				int nextSecPosition = getPositionForSection(+nextSection);
-				if (firstVisibleItem != lastFirstVisibleItem) {
-					MarginLayoutParams params = (MarginLayoutParams) titleLayout
-							.getLayoutParams();
-					params.topMargin = 0;
-					titleLayout.setLayoutParams(params);
-					title.setText(SourceDateList.get(
-							getPositionForSection(section)).getSortLetters());
-				}
-				if (nextSecPosition == firstVisibleItem + 1) {
-					View childView = view.getChildAt(0);
-					if (childView != null) {
-						int titleHeight = titleLayout.getHeight();
-						int bottom = childView.getBottom();
-						MarginLayoutParams params = (MarginLayoutParams) titleLayout
-								.getLayoutParams();
-						if (bottom < titleHeight) {
-							float pushedDistance = bottom - titleHeight;
-							params.topMargin = (int) pushedDistance;
-							titleLayout.setLayoutParams(params);
-						} else {
-							if (params.topMargin != 0) {
-								params.topMargin = 0;
+					int section = getSectionForPosition(firstVisibleItem);//根据ListView的当前位置获取分类的首字母的Char ascii值
+					int nextSection = getSectionForPosition(firstVisibleItem + 1);
+					int nextSecPosition = getPositionForSection(+nextSection);//根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
+					if (nextSecPosition == firstVisibleItem + 1) {
+						View childView = view.getChildAt(0);
+						if (childView != null) {
+							int titleHeight = titleLayout.getHeight();
+							int bottom = childView.getBottom();
+							MarginLayoutParams params = (MarginLayoutParams) titleLayout.getLayoutParams();
+							if (bottom < titleHeight) {
+								float pushedDistance = bottom - titleHeight;
+								params.topMargin = (int) pushedDistance;
 								titleLayout.setLayoutParams(params);
+							} else {
+								if (params.topMargin != 0) {
+									params.topMargin = 0;
+									titleLayout.setLayoutParams(params);
+								}
 							}
 						}
 					}
+				if (firstVisibleItem != lastFirstVisibleItem) {//如果列表不为空，设置顶部字母
+					MarginLayoutParams params = (MarginLayoutParams) titleLayout.getLayoutParams();
+					params.topMargin = 0;
+					titleLayout.setLayoutParams(params);
+					title.setText(SourceDateList.get(getPositionForSection(section)).getSortLetters());
+				}
+				if (adapter.getCount() != 0) {
+					mGroupMemberBean = (GroupMemberBean)adapter.getItem(firstVisibleItem);
+					if (showDialog) {
+						dialog.setVisibility(View.VISIBLE);
+						dialog.setText(mGroupMemberBean.getContact().getName().substring(0,1));
+					}
 				}
 				lastFirstVisibleItem = firstVisibleItem;
+			}
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+			     switch(scrollState){  
+			        case OnScrollListener.SCROLL_STATE_IDLE://空闲状态  
+			        	System.out.println("---->空闲状态");
+			        	showDialog = false;
+			        	dialog.setVisibility(View.GONE);
+			            break;        
+			        case OnScrollListener.SCROLL_STATE_FLING://滚动状态  
+			        	System.out.println("---->滚动状态");
+			        	showDialog = true;
+			            break;  
+			        case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动  
+			        	System.out.println("---->触摸后滚动");
+			        	showDialog = true;
+			            break;  
+			        }
 			}
 		});
 		mClearEditText = (ClearEditText) view.findViewById(R.id.filter_edit);
@@ -215,14 +289,14 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 	 * @param date
 	 * @return
 	 */
-	private List<GroupMemberBean> filledData(List<String> date) {
+	private List<GroupMemberBean> filledData(List<Mdl_Contact> date) {
 		List<GroupMemberBean> mSortList = new ArrayList<GroupMemberBean>();
 
 		for (int i = 0; i < date.size(); i++) {
 			GroupMemberBean sortModel = new GroupMemberBean();
-			sortModel.setName(date.get(i));
+			sortModel.setContact(date.get(i));
 			// 汉字转换成拼音
-			String pinyin = characterParser.getSelling(date.get(i));
+			String pinyin = characterParser.getSelling(date.get(i).getName());
 			String sortString = pinyin.substring(0, 1).toUpperCase();
 
 			// 正则表达式，判断首字母是否是英文字母
@@ -252,10 +326,8 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 		} else {
 			filterDateList.clear();
 			for (GroupMemberBean sortModel : SourceDateList) {
-				String name = sortModel.getName();
-				if (name.indexOf(filterStr.toString()) != -1
-						|| characterParser.getSelling(name).startsWith(
-								filterStr.toString())) {
+				String name = sortModel.getContact().getName();
+				if (name.indexOf(filterStr.toString()) != -1|| characterParser.getSelling(name).startsWith(filterStr.toString())) {
 					filterDateList.add(sortModel);
 				}
 			}
@@ -294,7 +366,53 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 		}
 		return -1;
 	}
-	private void showDialog(){
+	
+	
+	/** 得到手机通讯录联系人信息 **/
+	/*	private void getPhoneContacts() {
+		ContentResolver resolver = getActivity().getContentResolver();
+
+		// 获取手机联系人
+		Cursor phoneCursor = resolver.query(Phone.CONTENT_URI,
+				PHONES_PROJECTION, null, null, null);
+
+		if (phoneCursor != null) {
+			while (phoneCursor.moveToNext()) {
+
+				// 得到手机号码
+				String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
+				// 当手机号码为空的或者为空字段 跳过当前循环
+				if (TextUtils.isEmpty(phoneNumber))
+					continue;
+
+				// 得到联系人名称
+				String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
+
+				// 得到联系人ID
+				Long contactid = phoneCursor.getLong(PHONES_CONTACT_ID_INDEX);
+
+				// 得到联系人头像ID
+				Long photoid = phoneCursor.getLong(PHONES_PHOTO_ID_INDEX);
+
+				// 得到联系人头像Bitamp
+				Bitmap contactPhoto = null;
+
+				// photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
+				if (photoid > 0) {
+					Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactid);
+					InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(resolver, uri);
+					contactPhoto = BitmapFactory.decodeStream(input);
+				} else {
+					contactPhoto = BitmapFactory.decodeResource(getResources(),R.drawable.img_user);
+				}
+				contactList.add(new Mdl_Contact(contactName, phoneNumber, contactPhoto));
+			}
+
+			phoneCursor.close();
+		}
+	}*/
+	
+	private void showDialog(String name,String num,Bitmap head){
 		dlgView = getActivity().getLayoutInflater().inflate(R.layout.dlg_call, null);
 		dlgCall = new Dialog(getActivity(), R.style.transparentFrameWindowStyle);
 		dlgCall.setContentView(dlgView, new LayoutParams(
@@ -313,10 +431,10 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 		btn_DlgshanghuiCall = (Button)dlgView.findViewById(R.id.btn_dlg_shanghui_call);
 		btn_DlgwifiCall = (Button)dlgView.findViewById(R.id.btn_dlg_call_wifi_call);
 		btn_Dlgcancel = (Button)dlgView.findViewById(R.id.btn_dlg_call_cancel);
-		dialogInitLitener();
+		dialogInitLitener(name,num,head);
 		dlgCall.show();
 	}
-	private void dialogInitLitener(){
+	private void dialogInitLitener(final String name,final String num,final Bitmap head){
 		btn_Dlgcancel.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -329,7 +447,12 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				intent = new Intent(getActivity(),Aty_Calling.class);
+				intent.putExtra(Config.KEY_NAME,name);
+				intent.putExtra(Config.KEY_NUM, num);
+				intent.putExtra(Config.KEY_HEAD,head);
+				startActivity(intent);
+				dlgCall.dismiss();
 				
 			}
 		});
@@ -341,5 +464,23 @@ public class Frg_Friends_Mail_list extends Fragment implements SectionIndexer {
 				
 			}
 		});
+		//Toast.makeText(getActivity(), text, duration)
+	}
+	
+	public static void showToast(Context context, String text, int duration) {		
+		if (tv_toastText == null) {
+			toastView = LayoutInflater.from(context).inflate(R.layout.toast_view,null);
+			mToast = new Toast(context);
+			tv_toastText = (TextView)toastView.findViewById(R.id.tv_toastView_Text);
+			mToast.setGravity(Gravity.CENTER, 0, 0);
+			mToast.setView(toastView);
+			tv_toastText.setText(text);
+			mToast.setDuration(duration);
+		} else {
+			tv_toastText.setText(text);
+			mToast.setDuration(duration);
+		}
+
+		mToast.show();
 	}
 }

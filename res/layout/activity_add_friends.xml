@@ -39,7 +39,7 @@
             android:text="没有匹配的联系人"
             android:textColor="#454545"
             android:visibility="gone" />
-
+		<!-- 顶部字母显示 -->
         <LinearLayout
             android:id="@+id/title_layout"
             android:layout_width="fill_parent"
@@ -47,7 +47,7 @@
             android:layout_gravity="right|top"
             android:background="#ff303030"
             android:orientation="vertical" >
-
+		
             <TextView
                 android:id="@+id/title_layout_catalog"
                 android:layout_width="fill_parent"
@@ -66,7 +66,7 @@
             android:layout_width="80.0dip"
             android:layout_height="80.0dip"
             android:layout_gravity="center"
-            android:background="@drawable/show_head_toast_bg"
+            android:background="@drawable/sort_icon_bg_click"
             android:gravity="center"
             android:textColor="#ffffffff"
             android:textSize="30.0dip"

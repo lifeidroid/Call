@@ -14,7 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shanghui.call.R;
-
+/**
+ * 打电话界面
+ * @author shanghui
+ *
+ */
 public class Frg_Call extends Fragment implements View.OnClickListener {
 	private View view;
 	private TextView tv_num;
@@ -96,38 +100,9 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 		btn_nums.setOnClickListener(this);
 		btn_numj.setOnClickListener(this);
 		iv_del.setOnClickListener(this);
-		/*
-		 * iv_key_main.setOnClickListener(new View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { animation =
-		 * AnimationUtils.loadAnimation(getActivity(),
-		 * R.anim.photo_dialog_in_anim); lay_keyboard.setAnimation(animation);
-		 * lay_keyboard.setVisibility(View.VISIBLE); } });
-		 * iv_keyboard_down.setOnClickListener(new View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { animation =
-		 * AnimationUtils.loadAnimation(getActivity(),
-		 * R.anim.photo_dialog_out_anim); lay_keyboard.setAnimation(animation);
-		 * lay_keyboard.setVisibility(View.GONE);
-		 * 
-		 * } });
-		 */
+
 	}
 
-	/*
-	 * private void showDialog() { view =
-	 * getActivity().getLayoutInflater().inflate(R.layout.dlg_keyboard, null);
-	 * keyboard_dlg = new Dialog(getActivity(),
-	 * R.style.transparentFrameWindowStyle); keyboard_dlg.setContentView(view);
-	 * Window window = keyboard_dlg.getWindow();// 设置显示动画
-	 * window.setWindowAnimations(R.style.main_menu_animstyle);
-	 * WindowManager.LayoutParams wl = window.getAttributes(); wl.x = 0; wl.y =
-	 * getActivity().getWindowManager().getDefaultDisplay().getHeight();//
-	 * 以下这两句是为了保证按钮可以水平满屏 wl.width = ViewGroup.LayoutParams.MATCH_PARENT;
-	 * wl.height = ViewGroup.LayoutParams.WRAP_CONTENT; // 设置显示位置
-	 * keyboard_dlg.onWindowAttributesChanged(wl); // 设置点击外围解散
-	 * keyboard_dlg.setCanceledOnTouchOutside(true); keyboard_dlg.show(); }
-	 */
 
 	@Override
 	public void onClick(View v) {
@@ -137,6 +112,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 					R.anim.photo_dialog_in_anim);
 			lay_keyboard.setAnimation(animation);
 			lay_keyboard.setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.lay_aty_main_bottom).setVisibility(View.GONE);
 			break;
 		case R.id.iv_keyboard_down:
 			animation = AnimationUtils.loadAnimation(getActivity(),
@@ -144,6 +120,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 			lay_keyboard.setAnimation(animation);
 			lay_keyboard.setVisibility(View.GONE);
 			tv_num.setText(R.string.call);
+			getActivity().findViewById(R.id.lay_aty_main_bottom).setVisibility(View.VISIBLE);
 			break;
 		case R.id.btn_keyboard_0:
 			nun_Buffer.append("0");

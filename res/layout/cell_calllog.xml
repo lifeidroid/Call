@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textSize="15dp"
+            android:textSize="17sp"
+            android:textColor="#336598"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/iv_cellCallLog_type" />
 
@@ -31,12 +32,13 @@
             android:id="@+id/tv_cellCallLog_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_below="@id/tv_cellCallLog_name"
             android:layout_toRightOf="@id/iv_cellCallLog_type"
             android:textColor="@color/DarkGray" />
 
         <ImageView
-            android:id="@+id/iv_cellCallLog_right"
+            android:id="@+id/iv_cellCallLog_more"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -52,7 +54,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/WhiteSmoke"
-            android:layout_toLeftOf="@id/iv_cellCallLog_right" />
+            android:layout_toLeftOf="@id/iv_cellCallLog_more" />
 
         <TextView
             android:layout_width="wrap_content"

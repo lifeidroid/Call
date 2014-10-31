@@ -14,4 +14,7 @@
     <color name="HotPink">#FF69B4</color>
     <color name="DimGray">#696969</color><!-- 暗淡的灰色 -->
     <color name="Gold">#FFD700</color><!-- 金色 -->
+    <color name="Crimson">#DC143C</color><!-- 猩红 -->
+    <color name="LimeGreen">#32CD32</color><!-- 酸橙绿 -->
+    <color name="Orange">#FFA500</color><!-- 橙色 -->
 </resources>

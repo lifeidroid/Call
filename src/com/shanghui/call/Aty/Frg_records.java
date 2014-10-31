@@ -1,31 +1,32 @@
 package com.shanghui.call.Aty;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.shanghui.call.R;
-import com.shanghui.call.Adp.Adp_CallLog;
-import com.shanghui.call.Mdl.Mdl_CallLog;
-
 import android.app.Dialog;
-import android.content.ContentResolver;
-import android.database.Cursor;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.CallLog;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.shanghui.call.Config;
+import com.shanghui.call.R;
+import com.shanghui.call.Adp.Adp_CallLog;
+import com.shanghui.call.Mdl.Mdl_CallLog;
+/**
+ * 最近通话记录
+ * @author shanghui
+ *
+ */
 public class Frg_records extends Fragment {
 	private View view;
 	private ListView lv_record;
@@ -37,6 +38,9 @@ public class Frg_records extends Fragment {
 	private Button btn_DlgwifiCall;
 	private Button btn_DlgshanghuiCall;
 	private Button btn_Dlgcancel;
+	private App_Main app_Main;
+	private Intent mIntent;
+	private Mdl_CallLog mCallLog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,9 +58,10 @@ public class Frg_records extends Fragment {
 	}
 
 	private void initValues() {
+		app_Main = (App_Main) getActivity().getApplication();
 		adapter = new Adp_CallLog(getActivity());
 		adapter.clear();
-		adapter.addAll(getRecordList());
+		adapter.addAll(app_Main.getCallLogList());
 	}
 
 	private void initViews() {
@@ -70,41 +75,15 @@ public class Frg_records extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-					showDialog();
+					mCallLog = (Mdl_CallLog)adapter.getItem(position);
+					showDialog(mCallLog.getUserName(),mCallLog.getPhoneNum(),mCallLog.getHead());
 
 			}
 		});
 	}
 
-	private List<Mdl_CallLog> getRecordList() {
-		Date date;
-		ContentResolver cr = getActivity().getContentResolver();
-		final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, new String[] {
-				CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME,
-				CallLog.Calls.TYPE, CallLog.Calls.DATE }, null, null,
-				CallLog.Calls.DEFAULT_SORT_ORDER);
-		for (int i = 0; i < cursor.getCount(); i++) {
-			cursor.moveToPosition(i);
-			mdl_CallLog = new Mdl_CallLog();
-			mdl_CallLog.setPhoneNum(cursor.getString(0));
-			mdl_CallLog.setUserName(cursor.getString(1));
-			mdl_CallLog.setCallType(cursor.getInt(2));
-			SimpleDateFormat sfd = new SimpleDateFormat("MM-dd hh:mm");
-			date = new Date(Long.parseLong(cursor.getString(3)));
-			mdl_CallLog.setCallDate(sfd.format(date));
-			recordList.add(mdl_CallLog);
-		}
-		return recordList;
-		/**
-		 * CallLog.Calls.CONTENT_URI （通话记录数据库） CallLog.Calls.NUMBER （通话号码）
-		 * CallLog.Calls.CACHED_NAME （通话人姓名） CallLog.Calls.TYPE （通话类型）
-		 * 来电：CallLog.Calls.INCOMING_TYPE （常量值：1）
-		 * 已拨：CallLog.Calls.OUTGOING_TYPE（常量值：2）
-		 * 未接：CallLog.Calls.MISSED_TYPE（常量值：3）
-		 */
-	}
 
-	private void showDialog() {
+	private void showDialog(String name,String num,Bitmap head) {
 		dlgView = getActivity().getLayoutInflater().inflate(R.layout.dlg_call,
 				null);
 		dlgCall = new Dialog(getActivity(), R.style.transparentFrameWindowStyle);
@@ -124,10 +103,10 @@ public class Frg_records extends Fragment {
 		btn_DlgshanghuiCall = (Button)dlgView.findViewById(R.id.btn_dlg_shanghui_call);
 		btn_DlgwifiCall = (Button)dlgView.findViewById(R.id.btn_dlg_call_wifi_call);
 		btn_Dlgcancel = (Button)dlgView.findViewById(R.id.btn_dlg_call_cancel);
-		dialogInitLitener();
+		dialogInitLitener(name,num,head);
 		dlgCall.show();
 	}
-	private void dialogInitLitener(){
+	private void dialogInitLitener(final String name,final String num,final Bitmap head){
 		btn_Dlgcancel.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -140,8 +119,12 @@ public class Frg_records extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				mIntent = new Intent(getActivity(),Aty_Calling.class);
+				mIntent.putExtra(Config.KEY_NAME, name);
+				mIntent.putExtra(Config.KEY_NUM, num);
+				mIntent.putExtra(Config.KEY_HEAD, head);
+				startActivity(mIntent);
+				dlgCall.dismiss();
 			}
 		});
 		btn_DlgwifiCall.setOnClickListener(new View.OnClickListener() {

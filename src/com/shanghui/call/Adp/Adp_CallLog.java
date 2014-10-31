@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.provider.CallLog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,13 +15,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.shanghui.call.Config;
 import com.shanghui.call.R;
+import com.shanghui.call.Aty.Aty_ContentInfo;
 import com.shanghui.call.Mdl.Mdl_CallLog;
 
 public class Adp_CallLog extends BaseAdapter {
 	private List<Mdl_CallLog> list = new ArrayList<Mdl_CallLog>();
 	private Context context;
 	private Mdl_CallLog mdl_CallLog;
+	private Intent intent;
 
 	public Adp_CallLog(Context context) {
 		this.context = context;
@@ -46,7 +50,7 @@ public class Adp_CallLog extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder;
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(
@@ -59,19 +63,27 @@ public class Adp_CallLog extends BaseAdapter {
 					(TextView) convertView
 							.findViewById(R.id.tv_cellCallLog_num),
 					(TextView) convertView
-							.findViewById(R.id.tv_cellCallLog_time));
+							.findViewById(R.id.tv_cellCallLog_time),
+					(ImageView) convertView
+							.findViewById(R.id.iv_cellCallLog_more));
 			convertView.setTag(viewHolder);
 		}
 		viewHolder = (ViewHolder) convertView.getTag();
-		mdl_CallLog = list.get(position);
-		if (TextUtils.isEmpty(mdl_CallLog.getUserName())) {
-			viewHolder.getTv_name().setText("未知");
-		}else {
-			viewHolder.getTv_name().setText(mdl_CallLog.getUserName());
-		}
-		viewHolder.getTv_num().setText(mdl_CallLog.getPhoneNum());
-		viewHolder.getTv_date().setText(mdl_CallLog.getCallDate());
-		switch (mdl_CallLog.getCallType()) {
+		viewHolder.getTv_name().setText(list.get(position).getUserName());
+		viewHolder.getTv_num().setText(list.get(position).getPhoneNum());
+		viewHolder.getTv_date().setText(list.get(position).getCallDate());
+		viewHolder.getIv_more().setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				intent = new Intent(getContext(),Aty_ContentInfo.class);
+				intent.putExtra(Config.KEY_HEAD, list.get(position).getHead());
+				intent.putExtra(Config.KEY_NAME, list.get(position).getUserName());
+				intent.putExtra(Config.KEY_NUM, list.get(position).getPhoneNum());
+				intent.putExtra(Config.KEY_ID, Config.NO_EXIST);
+				getContext().startActivity(intent);				
+			}
+		});
+		switch (list.get(position).getCallType()) {
 		case CallLog.Calls.INCOMING_TYPE://来电
 			viewHolder.getIv_type().setImageResource(R.drawable.call_coming);
 			break;
@@ -92,14 +104,16 @@ public class Adp_CallLog extends BaseAdapter {
 		private TextView tv_name;
 		private TextView tv_num;
 		private TextView tv_date;
+		private ImageView iv_more;
 
 		public ViewHolder(ImageView iv_type, TextView tv_name, TextView tv_num,
-				TextView tv_date) {
+				TextView tv_date,ImageView iv_more) {
 			super();
 			this.iv_type = iv_type;
 			this.tv_name = tv_name;
 			this.tv_num = tv_num;
 			this.tv_date = tv_date;
+			this.iv_more = iv_more;
 		}
 
 		public ImageView getIv_type() {
@@ -116,6 +130,9 @@ public class Adp_CallLog extends BaseAdapter {
 
 		public TextView getTv_num() {
 			return tv_num;
+		}
+		public ImageView getIv_more() {
+			return iv_more;
 		}
 	}
 

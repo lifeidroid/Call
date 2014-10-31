@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+/**
+ * 联系人好友模块
+ */
 public class Frg_Friends_Friends_List extends Fragment {
 	private View view;
 	@Override

@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-
+/**
+ * 通讯录主界面
+ * @author shanghui
+ *
+ */
 public class Frg_Friends extends Fragment {
 	private View view;
 	private Frg_Friends_Friends_List friends_List;

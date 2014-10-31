@@ -1,6 +1,9 @@
 package com.shanghui.call.Aty;
 
 import com.shanghui.call.R;
+/**
+ * 信息模块
+ */
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
