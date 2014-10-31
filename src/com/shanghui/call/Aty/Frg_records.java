@@ -21,6 +21,7 @@ import android.widget.ListView;
 import com.shanghui.call.Config;
 import com.shanghui.call.R;
 import com.shanghui.call.Adp.Adp_CallLog;
+import com.shanghui.call.Mdl.Dfine;
 import com.shanghui.call.Mdl.Mdl_CallLog;
 /**
  * 最近通话记录
@@ -58,10 +59,11 @@ public class Frg_records extends Fragment {
 	}
 
 	private void initValues() {
-		app_Main = (App_Main) getActivity().getApplication();
+		//app_Main = (App_Main) getActivity().getApplication();
 		adapter = new Adp_CallLog(getActivity());
 		adapter.clear();
-		adapter.addAll(app_Main.getCallLogList());
+		System.out.println("------CalllogsSize:"+Dfine.callLogs.size());
+		adapter.addAll(Dfine.callLogs);
 	}
 
 	private void initViews() {

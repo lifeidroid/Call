@@ -9,10 +9,15 @@ public class Config {
 	public static final String CHARSET = "UTF-8";
 	
 	
+	public static final String URL_CALLBACK = "/external/server/CallBack";
+	public static final String URL_CREATECUSTOMER ="/external/server/CreateCustomer";
+	public static final String URL_MODIFYCUSTOMER = "/external/server/ModifyCustomer";
+	public static final String URL_DELETECUSTOMER = "/external/server/DeleteCustomer";
+	public static final String URL_GETCUSTOMER = "/external/server/GetCustomer";
+	public static final String URL_CREATPHONE = "/external/server/CreatePhone";
 	public static final String APPID = "com.shanghui.call";
 	public static final String KEY_LOCALCODE = "localcode";
 	public static final String ADDRESS = "";
-	public static final String URL_CALLBACK = "/external/server/CallBack";
 	public static final String KEY_NAME = "name";
 	public static final String KEY_NUM = "phoneNum";
 	public static final String KEY_HEAD = "head";
@@ -25,6 +30,8 @@ public class Config {
 	public static final String KEY_OWNERTYPE = "ownerType";
 	public static final String KEY_PIN = "pin";
 	public static final String KEY_RETCODE = "retCode";
+	public static final String KEY_ACCOUNT = "acccount";
+	
 	public static final int SUCCESS = 0;
 	public static final long NO_EXIST = 0l;
 	

@@ -3,17 +3,24 @@ package com.shanghui.call.Aty;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shanghui.call.R;
+import com.shanghui.call.Adp.SearchListAdapter;
+import com.shanghui.call.Mdl.Dfine;
+import com.shanghui.call.Mdl.Mdl_Contact;
 /**
  * 打电话界面
  * @author shanghui
@@ -23,6 +30,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 	private View view;
 	private TextView tv_num;
 	private ImageView iv_key_main;
+	private ListView lv_content;
 	private ImageView iv_del;
 	private Dialog keyboard_dlg;
 	private RelativeLayout lay_keyboard;
@@ -40,6 +48,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 	private Button btn_num0;
 	private Button btn_numj;
 	private Button btn_nums;
+	private SearchListAdapter adapter;
 
 	private StringBuffer nun_Buffer = new StringBuffer();
 
@@ -59,7 +68,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 	}
 
 	private void initValues() {
-
+		adapter = new SearchListAdapter(getActivity());
 	}
 
 	private void initView() {
@@ -80,11 +89,21 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 		btn_num9 = (Button) view.findViewById(R.id.btn_keyboard_9);
 		btn_nums = (Button) view.findViewById(R.id.btn_keyboard_star);
 		btn_numj = (Button) view.findViewById(R.id.btn_keyboard_j);
-
+		lv_content = (ListView)view.findViewById(R.id.lv_frgCall_Content);
+		lv_content.setAdapter(adapter);
 		lay_keyboard.setVisibility(View.GONE);
 	}
 
 	private void initListener() {
+		lv_content.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				tv_num.setText(((Mdl_Contact)adapter.getItem(arg2)).getPhoneNum());
+				
+			}
+		});
 		iv_key_main.setOnClickListener(this);
 		iv_keyboard_down.setOnClickListener(this);
 		btn_num0.setOnClickListener(this);
@@ -100,6 +119,31 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 		btn_nums.setOnClickListener(this);
 		btn_numj.setOnClickListener(this);
 		iv_del.setOnClickListener(this);
+		
+		tv_num.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+
+				if (s.length() > 0) {
+					tv_num.setTextSize(26.0f);
+					adapter.getFilter().filter(s);
+				} else {
+					adapter.clear();
+					adapter.notifyDataSetChanged();
+					tv_num.setTextSize(20.0f);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
 
 	}
 

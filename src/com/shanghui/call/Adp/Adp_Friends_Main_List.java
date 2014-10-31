@@ -1,5 +1,6 @@
 package com.shanghui.call.Adp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -7,20 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.SectionIndexer;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.shanghui.call.R;
-import com.shanghui.call.Tools.GroupMemberBean;
+import com.shanghui.call.Mdl.Dfine;
+import com.shanghui.call.Mdl.Mdl_Contact;
 import com.shanghui.call.Tools.RoundImageView;
 
-public class Adp_Friends_Main_List extends BaseAdapter implements SectionIndexer {
-	private List<GroupMemberBean> list = null;
+public class Adp_Friends_Main_List extends BaseAdapter implements Filterable{
+	private List<Mdl_Contact> DataList = new ArrayList<Mdl_Contact>();
 	private Context mContext;
+	private boolean showTitle;
 
-	public Adp_Friends_Main_List(Context mContext, List<GroupMemberBean> list) {
+	public Adp_Friends_Main_List(Context mContext) {
 		this.mContext = mContext;
-		this.list = list;
 	}
 
 	/**
@@ -28,19 +31,20 @@ public class Adp_Friends_Main_List extends BaseAdapter implements SectionIndexer
 	 * 
 	 * @param list
 	 */
-	public void updateListView(List<GroupMemberBean> list) {
-		this.list = list;
+	
+	public void addAll(List<Mdl_Contact> list,boolean showTitle){
+		DataList.clear();
+		DataList.addAll(list);
 		notifyDataSetChanged();
+		this.showTitle = true;
 	}
 
 	public int getCount() {
-		return this.list.size();
+		return this.DataList.size();
 	}
 
 	public Object getItem(int position) {
-		System.out.println("---------->position:"+position);
-		System.out.println("---------->list.size"+list.size());
-		return list.get(position);
+		return DataList.get(position);
 	}
 
 	public long getItemId(int position) {
@@ -49,7 +53,7 @@ public class Adp_Friends_Main_List extends BaseAdapter implements SectionIndexer
 
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
-		final GroupMemberBean mContent = list.get(position);
+		final Mdl_Contact mContent = DataList.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.cell_friendsmail_list, null);
@@ -66,16 +70,21 @@ public class Adp_Friends_Main_List extends BaseAdapter implements SectionIndexer
 		int section = getSectionForPosition(position);
 
 		// 如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
-		if (position == getPositionForSection(section)) {
-			viewHolder.tvLetter.setVisibility(View.VISIBLE);
-			viewHolder.tvLetter.setText(mContent.getSortLetters());
-		} else {
+		if (showTitle) {
+			if (position == getPositionForSection(section)) {
+				viewHolder.tvLetter.setVisibility(View.VISIBLE);
+				viewHolder.tvLetter.setText(mContent.getFirstNamePy());
+			} else {
+				viewHolder.tvLetter.setVisibility(View.GONE);
+			}
+		}else {
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
-
-		viewHolder.tvTitle.setText(this.list.get(position).getContact().getName());
-		viewHolder.tv_num.setText(this.list.get(position).getContact().getPhoneNum());
-		viewHolder.ivHead.setImageBitmap(this.list.get(position).getContact().getHead());
+		viewHolder.tvTitle.setText(this.DataList.get(position).getName());
+		viewHolder.tv_num.setText(this.DataList.get(position).getPhoneNum());		
+		if (DataList.get(position).getHead() != null) {
+			viewHolder.ivHead.setImageBitmap(this.DataList.get(position).getHead());
+		}
 
 		return view;
 
@@ -92,7 +101,7 @@ public class Adp_Friends_Main_List extends BaseAdapter implements SectionIndexer
 	 * 根据ListView的当前位置获取分类的首字母的Char ascii值
 	 */
 	public int getSectionForPosition(int position) {
-		return list.get(position).getSortLetters().charAt(0);
+		return DataList.get(position).getFirstNamePy().charAt(0);
 	}
 
 	/**
@@ -100,34 +109,103 @@ public class Adp_Friends_Main_List extends BaseAdapter implements SectionIndexer
 	 */
 	public int getPositionForSection(int section) {
 		for (int i = 0; i < getCount(); i++) {
-			String sortStr = list.get(i).getSortLetters();
+			String sortStr = DataList.get(i).getFirstNamePy();
 			char firstChar = sortStr.toUpperCase().charAt(0);
 			if (firstChar == section) {
 				return i;
 			}
 		}
-
 		return -1;
 	}
-
-	/**
-	 * 提取英文的首字母，非英文字母用#代替。
-	 * 
-	 * @param str
-	 * @return
-	 */
-	private String getAlpha(String str) {
-		String sortStr = str.trim().substring(0, 1).toUpperCase();
-		// 正则表达式，判断首字母是否是英文字母
-		if (sortStr.matches("[A-Z]")) {
-			return sortStr;
-		} else {
-			return "#";
-		}
-	}
-
+	
 	@Override
-	public Object[] getSections() {
-		return null;
+	public Filter getFilter() {
+		Filter filter = new Filter() {
+			
+			//执行过滤方法 
+			@Override
+			protected FilterResults performFiltering(CharSequence constraint) {
+				String input = constraint.toString();
+				FilterResults results = new FilterResults();
+				ArrayList<Mdl_Contact> list = new ArrayList<Mdl_Contact>();
+				boolean py = false;
+				for(Mdl_Contact item : Dfine.contacts){
+					item.input = input;
+					if((item.getName().equals(input) || item.getName().contains(input)) && !list.contains(item)){
+						list.add(item);
+					}else if(item.getLastNamePy().contains(input) && !list.contains(item)){
+						list.add(item);
+					}else if(item.getNamePy().contains(input) && !list.contains(item)){
+						list.add(item);
+					}else if(item.getLastNameToNumber().equals(input) && !list.contains(item)){
+						item.index = 0;
+						list.add(item);
+					}else if(item.getLastNameToNumber().contains(input) && !list.contains(item)){
+						item.index = 1;
+						list.add(item);
+					}else if(item.getNameToNumber().contains(input) && !list.contains(item)){
+						char[] chars = item.getLastNameToNumber().toCharArray();
+						for(char c : chars){
+							if(c == input.toCharArray()[0] && !list.contains(item)){
+								item.index = 2;
+								item.matchIndex = item.getNameToNumber().indexOf(input);
+								list.add(item);
+								py = true;
+							}
+						}
+					}else if(item.getPhoneNum().contains(input) && !list.contains(item)){
+						item.index = 3;
+						list.add(item);
+					}
+				}
+				//按搜索顺序排序
+				for (int i = 0; i < list.size(); ++i) {
+					for (int j = 0; j < list.size() - i - 1; ++j) {
+						if (list.get(j).index > list.get(j + 1).index) {
+							Mdl_Contact temp = list.get(j + 1);
+							list.set(j + 1 , list.get(j));
+							list.set(j,temp);
+						}
+					}
+				}
+				//全拼按匹配顺序排序
+				if(py){
+					for (int i = 0; i < list.size(); ++i) {
+						for (int j = 0; j < list.size() - i - 1; ++j) {
+							if(list.get(j).index == 2 && list.get(j + 1).index == 2){
+								if (list.get(j).matchIndex > list.get(j + 1).matchIndex) {
+									Mdl_Contact temp = list.get(j + 1);
+									list.set(j + 1 , list.get(j));
+									list.set(j,temp);
+								}
+							}
+						}
+					}
+				}
+				
+				results.count = list.size();
+				results.values = list;
+				return results;
+			}
+			//筛选过后得到的数据同时更新Adapter更新 
+			@Override
+			protected void publishResults(CharSequence constraint, FilterResults results) {
+				//Dfine.searchUser.clear();
+				showTitle = false;
+				DataList.clear();
+				ArrayList<Mdl_Contact> list = (ArrayList<Mdl_Contact>)results.values;
+				if(list != null && list.size() > 0){
+					DataList.addAll(list);
+					notifyDataSetChanged();
+				}else{
+					notifyDataSetInvalidated();
+				}
+			}
+	
+		};
+		return filter;
 	}
+
+	
+
 }

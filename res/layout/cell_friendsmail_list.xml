@@ -37,10 +37,19 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:textSize="17sp"
-            android:textColor="#336598"
             android:layout_toRightOf="@id/iv_cellFriendsMail_head"
-            />
+            android:textColor="#336598"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_cellFriendsMail_body"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@id/tv_cellFriendsMail_name"
+            android:gravity="center|left"
+            android:text="18688753176"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_cellFriendsMail_num"
