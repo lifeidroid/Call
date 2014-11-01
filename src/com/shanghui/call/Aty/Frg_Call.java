@@ -1,6 +1,9 @@
 package com.shanghui.call.Aty;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -8,6 +11,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -17,6 +23,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.shanghui.call.Config;
 import com.shanghui.call.R;
 import com.shanghui.call.Adp.SearchListAdapter;
 import com.shanghui.call.Mdl.Dfine;
@@ -32,6 +39,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 	private ImageView iv_key_main;
 	private ListView lv_content;
 	private ImageView iv_del;
+	private ImageView iv_call;
 	private Dialog keyboard_dlg;
 	private RelativeLayout lay_keyboard;
 	private Animation animation;
@@ -49,8 +57,16 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 	private Button btn_numj;
 	private Button btn_nums;
 	private SearchListAdapter adapter;
-
+	private Intent intent;
+	private Mdl_Contact mdl_Contact;
+	private View dlgView;
+	private Dialog dlgCall;
+	private Button btn_DlgwifiCall;
+	private Button btn_DlgshanghuiCall;
+	private Button btn_Dlgcancel;
 	private StringBuffer nun_Buffer = new StringBuffer();
+	private Bitmap head;
+	private String name;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +91,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 		iv_key_main = (ImageView) view.findViewById(R.id.iv_frg_call_keymain);
 		lay_keyboard = (RelativeLayout) view.findViewById(R.id.lay_keyboard);
 		iv_keyboard_down = (ImageView) view.findViewById(R.id.iv_keyboard_down);
+		iv_call = (ImageView)view.findViewById(R.id.iv_key_call);
 		iv_del = (ImageView)view.findViewById(R.id.iv_key_del);
 		tv_num = (TextView) view.findViewById(R.id.tv_num);
 		btn_num0 = (Button) view.findViewById(R.id.btn_keyboard_0);
@@ -101,11 +118,16 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				tv_num.setText(((Mdl_Contact)adapter.getItem(arg2)).getPhoneNum());
-				
+				nun_Buffer = new StringBuffer(((Mdl_Contact)adapter.getItem(arg2)).getPhoneNum());
+				mdl_Contact = (Mdl_Contact)adapter.getItem(arg2);
+				name = mdl_Contact.getName();
+				head = mdl_Contact.getHead();
+				//showDialog(mdl_Contact.getName(), mdl_Contact.getPhoneNum(), mdl_Contact.getHead());
 			}
 		});
 		iv_key_main.setOnClickListener(this);
 		iv_keyboard_down.setOnClickListener(this);
+		iv_call.setOnClickListener(this);
 		btn_num0.setOnClickListener(this);
 		btn_num1.setOnClickListener(this);
 		btn_num2.setOnClickListener(this);
@@ -119,6 +141,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 		btn_nums.setOnClickListener(this);
 		btn_numj.setOnClickListener(this);
 		iv_del.setOnClickListener(this);
+		
 		
 		tv_num.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -163,8 +186,22 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 					R.anim.photo_dialog_out_anim);
 			lay_keyboard.setAnimation(animation);
 			lay_keyboard.setVisibility(View.GONE);
-			tv_num.setText(R.string.call);
 			getActivity().findViewById(R.id.lay_aty_main_bottom).setVisibility(View.VISIBLE);
+			break;
+		case R.id.iv_key_call:
+			intent = new Intent(getActivity(),Aty_Calling.class);
+			if (head != null) {
+				intent.putExtra(Config.KEY_HEAD,head);
+			}else {
+				intent.putExtra(Config.KEY_HEAD, BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.img_user));
+			}
+			if (name != null) {
+				intent.putExtra(Config.KEY_NAME, name);
+			}else {
+				intent.putExtra(Config.KEY_NAME, "未知");
+			}
+			intent.putExtra(Config.KEY_NUM, nun_Buffer.toString());
+			startActivity(intent);
 			break;
 		case R.id.btn_keyboard_0:
 			nun_Buffer.append("0");
@@ -229,4 +266,58 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 			break;
 		}
 	}
+	
+/*	private void showDialog(String name,String num,Bitmap head){
+		dlgView = getActivity().getLayoutInflater().inflate(R.layout.dlg_call, null);
+		dlgCall = new Dialog(getActivity(), R.style.transparentFrameWindowStyle);
+		dlgCall.setContentView(dlgView, new LayoutParams(
+		LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		Window window = dlgCall.getWindow();// 设置显示动画
+		window.setWindowAnimations(R.style.main_menu_animstyle);
+		WindowManager.LayoutParams wl = window.getAttributes();
+		wl.x = 0;
+		wl.y = getActivity().getWindowManager().getDefaultDisplay().getHeight();// 以下这两句是为了保证按钮可以水平满屏
+		wl.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		wl.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+		// 设置显示位置
+		dlgCall.onWindowAttributesChanged(wl);
+		// 设置点击外围解散
+		dlgCall.setCanceledOnTouchOutside(true);
+		btn_DlgshanghuiCall = (Button)dlgView.findViewById(R.id.btn_dlg_shanghui_call);
+		btn_DlgwifiCall = (Button)dlgView.findViewById(R.id.btn_dlg_call_wifi_call);
+		btn_Dlgcancel = (Button)dlgView.findViewById(R.id.btn_dlg_call_cancel);
+		dialogInitLitener(name,num,head);
+		dlgCall.show();
+	}
+	private void dialogInitLitener(final String name,final String num,final Bitmap head){
+		btn_Dlgcancel.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dlgCall.dismiss();
+				
+			}
+		});
+		btn_DlgshanghuiCall.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				intent = new Intent(getActivity(),Aty_Calling.class);
+				intent.putExtra(Config.KEY_NAME,name);
+				intent.putExtra(Config.KEY_NUM, num);
+				intent.putExtra(Config.KEY_HEAD,head);
+				startActivity(intent);
+				dlgCall.dismiss();
+				
+			}
+		});
+		btn_DlgwifiCall.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}*/
 }

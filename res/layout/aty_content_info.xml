@@ -47,7 +47,7 @@
             <com.shanghui.call.Tools.RoundImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/img_call"
+                android:src="@drawable/img_call_bg"
                 android:id="@+id/riv_atyContentInfo_call"
                 imagecontrol:border_outside_color="@color/LimeGreen"
                 imagecontrol:border_thickness="1dp" />

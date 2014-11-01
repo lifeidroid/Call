@@ -35,7 +35,7 @@
             android:layout_marginTop="5dp"
             android:layout_below="@id/tv_cellCallLog_name"
             android:layout_toRightOf="@id/iv_cellCallLog_type"
-            android:textColor="@color/DarkGray" />
+            android:textColor="@color/DimGray" />
 
         <ImageView
             android:id="@+id/iv_cellCallLog_more"
@@ -63,7 +63,7 @@
             android:layout_marginRight="10dp"
             android:id="@+id/tv_cellCallLog_time"
             android:layout_toLeftOf="@id/tv_cellCallLog_line"
-            android:textColor="@color/DarkGray" />
+            android:textColor="@color/DimGray" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -52,11 +52,11 @@ public class Frg_Friends_Mail_list extends Fragment{
 	private Adp_Friends_Main_List adapter;
 	private ClearEditText mClearEditText;
 	private View view;
-	private View dlgView;
-	private Dialog dlgCall;
 	private LinearLayout titleLayout;
 	private TextView title;
 	private TextView tvNofriends;
+	private View dlgView;
+	private Dialog dlgCall;
 	private Button btn_DlgwifiCall;
 	private Button btn_DlgshanghuiCall;
 	private Button btn_Dlgcancel;
@@ -247,12 +247,10 @@ public class Frg_Friends_Mail_list extends Fragment{
 					System.out.println("------>onTextChanged");
 					System.out.println("------->size:"+Dfine.contacts.size());
 					showTitle = false;
-					mClearEditText.setTextSize(26.0f);
 					adapter.getFilter().filter(s);
 				} else {
 					showTitle = true;
 					adapter.notifyDataSetChanged();
-					mClearEditText.setTextSize(20.0f);
 					// 根据a-z进行排序源数据
 					Collections.sort(SourceDateList, pinyinComparator);
 					adapter.addAll(SourceDateList,true);

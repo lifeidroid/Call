@@ -27,6 +27,7 @@
             android:id="@+id/lv_frgCall_Content"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_marginBottom="60dp"
             android:scrollbars="none" >
         </ListView>
 
