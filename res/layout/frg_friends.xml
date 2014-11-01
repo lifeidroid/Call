@@ -14,23 +14,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="8dp"
             android:orientation="horizontal" >
 
             <RadioButton
                 android:id="@+id/rb_frgFriend_mailList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mail_list_selector"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:background="@drawable/rb_left"
+                android:text="通讯录"
+                android:gravity="center"
                 android:button="@null"
-                android:checked="true" />
+                android:checked="true"
+                android:textColor="@color/white" />
 
             <RadioButton
                 android:id="@+id/rb_frgFriend_friendList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/friends_list_selector"
-                android:button="@null" />
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:background="@drawable/rb_right"
+                android:text="好友"
+                android:gravity="center"
+                android:button="@null"
+                android:textColor="@color/white" />
         </RadioGroup>
 
         <TextView

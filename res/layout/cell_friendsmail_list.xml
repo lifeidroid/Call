@@ -28,7 +28,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/img_user" />
+            android:src="@drawable/img_people" />
 
         <TextView
             android:id="@+id/tv_cellFriendsMail_name"

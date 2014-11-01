@@ -135,11 +135,13 @@ public class Frg_Friends_Mail_list extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				mMdl_Contact = (Mdl_Contact)adapter.getItem(position);
+					mMdl_Contact = (Mdl_Contact)adapter.getItem(position);
 					intent = new Intent(getActivity(),Aty_ContentInfo.class);
 					intent.putExtra(Config.KEY_NAME,mMdl_Contact.getName());
 					intent.putExtra(Config.KEY_NUM, mMdl_Contact.getPhoneNum());
+					System.out.println("------>getPhoneNum");
 					intent.putExtra(Config.KEY_HEAD, mMdl_Contact.getHead());
+					System.out.println("------>getHead");
 					intent.putExtra(Config.KEY_ID, mMdl_Contact.getPeopleId());
 					startActivity(intent);
 			}

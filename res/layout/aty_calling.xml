@@ -20,7 +20,7 @@
         android:layout_below="@id/tv_atyCalling_title"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:src="@drawable/img_user" />
+        android:src="@drawable/img_people" />
 
     <TextView
         android:id="@+id/tv_atyCalling_name"
@@ -57,6 +57,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="10dp"
+            android:id="@+id/iv_atyCallling_handfree"
             android:src="@drawable/direct_handsfree_press"
             android:background="@drawable/calling_btn_handsfree" />
 
@@ -65,6 +66,7 @@
             android:layout_height="80dp"
             android:background="@drawable/calling_btn_call"
             android:layout_weight="1"
+            android:id="@+id/tv_atyCallling_offCalling"
             android:text="挂断"
             android:layout_margin="10dp"
             android:gravity="center"
@@ -74,6 +76,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="10dp"
+            android:id="@+id/iv_atyCallling_mute"
             android:src="@drawable/direct_mute_press"
             android:background="@drawable/calling_btn_handsfree"  />
     </LinearLayout>

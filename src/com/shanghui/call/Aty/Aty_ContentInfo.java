@@ -40,7 +40,6 @@ public class Aty_ContentInfo extends Activity {
 	private String num;
 	private long userId;
 	private Bitmap head;
-	private App_Main app_Main;
 	private ListView lv_content;
 	private RoundImageView iv_call;
 	private RoundImageView iv_message;
@@ -66,7 +65,6 @@ public class Aty_ContentInfo extends Activity {
 		num = intent.getExtras().getString(Config.KEY_NUM);
 		head = intent.getParcelableExtra(Config.KEY_HEAD);
 		userId = intent.getExtras().getLong(Config.KEY_ID);
-		app_Main = (App_Main) getApplication();
 		listCallLogs = Dfine.callLogs;
 		listContacts = Dfine.contacts;
 		adapter = new Adp_SimCallLog(Aty_ContentInfo.this);
@@ -99,7 +97,7 @@ public class Aty_ContentInfo extends Activity {
 		if (head != null) {
 			iv_head.setImageBitmap(head);
 		} else {
-			iv_head.setImageResource(R.drawable.img_user);
+			iv_head.setImageResource(R.drawable.img_people);
 		}
 	}
 

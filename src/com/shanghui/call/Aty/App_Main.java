@@ -10,5 +10,6 @@ public class App_Main extends Application {
 	public void onCreate() {
 		super.onCreate();
 		startService(new Intent(this, SearchService.class));
+		//bindService(service, conn, flags)
 	}
 }

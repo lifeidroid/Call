@@ -161,7 +161,7 @@ public class Util {
 						} else {
 							contactPhoto = BitmapFactory.decodeResource(
 									mContext.getResources(),
-									R.drawable.img_user);
+									R.drawable.img_people);
 						}
 						String LastNamePy = (ConverChineseCharToEn
 								.converterToAllFirstSpellsUppercase(contactName));

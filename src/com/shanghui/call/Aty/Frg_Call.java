@@ -193,7 +193,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 			if (head != null) {
 				intent.putExtra(Config.KEY_HEAD,head);
 			}else {
-				intent.putExtra(Config.KEY_HEAD, BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.img_user));
+				intent.putExtra(Config.KEY_HEAD, BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.img_people));
 			}
 			if (name != null) {
 				intent.putExtra(Config.KEY_NAME, name);

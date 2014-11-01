@@ -17,4 +17,7 @@
     <color name="Crimson">#DC143C</color><!-- 猩红 -->
     <color name="LimeGreen">#32CD32</color><!-- 酸橙绿 -->
     <color name="Orange">#FFA500</color><!-- 橙色 -->
+    <color name="press_bule">#15a2d5</color><!-- 按下的蓝色 -->
+    <color name="no_press_bule">#46c3f1</color><!-- 未按下的蓝色 -->
+    
 </resources>
