@@ -198,14 +198,14 @@ public class Util {
 			@Override
 			public void run() {
 				Date date;
-				System.out.println("--------->通话记录");
+			//	System.out.println("--------->通话记录");
 				ContentResolver cr = mContext.getContentResolver();
 				final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI,
 						new String[] { CallLog.Calls.NUMBER,
 								CallLog.Calls.CACHED_NAME, CallLog.Calls.TYPE,
 								CallLog.Calls.DATE, CallLog.Calls.DURATION },
 						null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
-				System.out.println("---------->cursor.size"+cursor.getCount());
+			//	System.out.println("---------->cursor.size"+cursor.getCount());
 				for (int i = 0; i < cursor.getCount(); i++) {
 					cursor.moveToPosition(i);
 					Mdl_CallLog mdl_CallLog = new Mdl_CallLog();
@@ -257,7 +257,7 @@ public class Util {
 					}
 					cursor2.close();
 					Dfine.callLogs.add(mdl_CallLog);
-					System.out.println("------->通话记录" + Dfine.callLogs.size());
+		//			System.out.println("------->通话记录" + Dfine.callLogs.size());
 				}
 				cursor.close();
 				/**

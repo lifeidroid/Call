@@ -10,12 +10,12 @@
         android:background="@color/bule" >
 
         <Button
+            android:id="@+id/btn_atymaincallcast_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:id="@+id/btn_atymaincallcast_back"
             android:background="@drawable/back_selector" />
 
         <TextView
@@ -27,9 +27,51 @@
             android:textColor="@color/white" />
     </RelativeLayout>
 
-    <WebView
-        android:id="@+id/wb_atymaincallcast"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_atyMainCallCast_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/bule" />
+
+        <EditText
+            android:id="@+id/et_atyMainCallCast_Cardnum"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/et_shape"
+            android:hint="@string/please_input_cast_num"
+            android:paddingLeft="5dp" />
+
+        <EditText
+            android:id="@+id/et_atyMainCallCast_Cardpassword"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/et_shape"
+            android:hint="@string/please_input_cast_password"
+            android:inputType="textPassword"
+            android:paddingLeft="5dp" />
+		<TextView android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="20dp"
+		    android:id="@+id/tv_atyMainCallCast_hint"
+		    android:textColor="@color/Gold"/>
+        <Button
+            android:id="@+id/btn_atyMainCallCast_Sure"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_login"
+            android:text="@string/sure_cast"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 </LinearLayout>

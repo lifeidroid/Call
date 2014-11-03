@@ -1,8 +1,5 @@
 package com.shanghui.call.Net;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.shanghui.call.Config;
 /**
  * 回拨网络通讯
@@ -11,27 +8,26 @@ import com.shanghui.call.Config;
  */
 
 public class NetCallBack{
-	public NetCallBack(String Calling,String Called,String JoinNum,String JoinPassword,final SuccessCallback successCallback,final FailCallback failCallback) {
+	public NetCallBack(String caller,String callees,String JoinNum,String JoinPassword,final SuccessCallback successCallback,final FailCallback failCallback) {
 		new NetConnection(Config.ADDRESS+Config.URL_CALLBACK, HttpMethod.POST, new NetConnection.SuccessCallback() {
 			
 			@Override
 			public void onSuccess(String result) {
-				try {
-					JSONObject jobj = new JSONObject(result);
-					if (Config.SUCCESS == jobj.getInt(Config.KEY_RETCODE)) {
+				if (result != null) {
+					String a[] = result.split("\\|");
+					 if (a[0].equals(Config.SUCCESS)) {
 						if (successCallback != null) {
 							successCallback.onSuccess();
 						}
-					}else {
+					 }else {
 						if (failCallback != null) {
-							failCallback.onFail();
+							failCallback.onFail(a[1]);
 						}
 					}
-				} catch (JSONException e) {
+				}else {
 					if (failCallback != null) {
-						failCallback.onFail();
+						failCallback.onFail("连接服务器失败，请检查网络！");
 					}
-					e.printStackTrace();
 				}
 				
 			}
@@ -40,20 +36,19 @@ public class NetCallBack{
 			@Override
 			public void onFail() {
 				if (failCallback != null) {
-					failCallback.onFail();
-				}
-				
+					failCallback.onFail("连接服务器失败，请检查网络！");
+				}		
 			}
-		}, Config.KEY_CALLERE164,Calling,
-		Config.KEY_CALLEEE164S,Called,
-		Config.KEY_ACCESSE164,JoinNum,
-		Config.KEY_ACCESSE164PASSWORD_,JoinPassword);
+		},Config.KEY_CALLER,caller
+		,Config.KEY_CALLEES,callees
+		,Config.KEY_NUMBER,JoinNum
+		,Config.KEY_ASSWORD,JoinPassword);
 	}
 	public static interface SuccessCallback{
 		void onSuccess();
 	}
 	public static interface FailCallback{
-		void onFail();
+		void onFail(String error);
 	}
 }
 

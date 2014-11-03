@@ -21,6 +21,8 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.shanghui.call.Config;
 import com.shanghui.call.R;
+import com.shanghui.call.Mdl.Dfine;
+import com.shanghui.call.Net.NetGetCustomer;
 import com.shanghui.call.Tools.AlwaysMarqueeTextView;
 /**
  * 主页模块
@@ -224,7 +226,22 @@ public class Frg_Main extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				new NetGetCustomer(Dfine.phoneNum.toString(), new NetGetCustomer.SuccessCallback() {
+					
+					@Override
+					public void onSuccess(String AccountNum, String AccountName,
+							String CurrentBalance, String validity, String overdraft) {
+						// TODO Auto-generated method stub
+						
+					}
+				}, new NetGetCustomer.FailCallback() {
+					
+					@Override
+					public void onFail(String error) {
+						showToast(getActivity(), error, Toast.LENGTH_LONG);
+						
+					}
+				});
 
 			}
 		});

@@ -26,5 +26,8 @@
     <string name="content_info">联系人详情</string>
     <string name="call_status">通话状态</string>
     <string name="connecting_to_server">正在连接服务器...</string>
+    <string name="sure_cast">确认充值</string>
+    <string name="please_input_cast_password">请输入充值卡密码</string>
+    <string name="please_input_cast_num">请输入充值卡卡号</string>
 
 </resources>

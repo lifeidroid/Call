@@ -2,6 +2,8 @@ package com.shanghui.call.Aty;
 
 import com.shanghui.call.Config;
 import com.shanghui.call.R;
+import com.shanghui.call.Mdl.Dfine;
+import com.shanghui.call.Net.NetCallBack;
 import com.shanghui.call.Tools.RoundImageView;
 
 import android.app.Activity;
@@ -34,6 +36,21 @@ public class Aty_Calling extends Activity {
 		initValues();
 		initViews();
 		initListener();
+		new NetCallBack(Dfine.phoneNum.toString(), num, "123", "123", new NetCallBack.SuccessCallback() {
+			
+			@Override
+			public void onSuccess() {
+				//TODO
+				
+			}
+		}, new NetCallBack.FailCallback() {
+			
+			@Override
+			public void onFail(String error) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	private void initValues(){
 		mIntent = getIntent();
