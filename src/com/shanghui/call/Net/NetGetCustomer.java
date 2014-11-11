@@ -37,6 +37,7 @@ public class NetGetCustomer {
 			}
 		},Config.KEY_NAME,name
 		,Config.KEY_LOGINNAME,Config.LOGINNAME
+		,Config.KEY_TYPE,Config.TYPE_BIND_PHONE+""
 		,Config.KEY_LOGINPASSWORD,Config.LOGINPASSWORD);
 	}
 	public static interface SuccessCallback{

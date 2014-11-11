@@ -4,7 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.R.integer;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -45,10 +48,12 @@ public class Util {
 	private static final int PHONES_PHOTO_ID_INDEX = 2;
 	// ** 联系人的ID **//*
 	private static final int PHONES_CONTACT_ID_INDEX = 3;
+	private static int num;
 
 	static final String array[] = new String[] { "ABCabc", "DEFdef", "GHIghi",
 			"JKLjkl", "MNOmno", "PQRSpqrs", "TUVtuv", "WXYZwxyz" };
-
+	public static List<Mdl_CallLog> mcallLogs = new ArrayList<Mdl_CallLog>();
+	public static List<Mdl_Contact> mcontacts = new ArrayList<Mdl_Contact>();
 	/**
 	 * 
 	 * 匹配字符上色
@@ -80,7 +85,7 @@ public class Util {
 			for (; n < py.length(); n++) {
 				if (c < chars.length && pyChar[n] == chars[c]) {
 					c++;
-					sbf.append("<b><i><font color=#5db43b>" + pyChar[n]
+					sbf.append("<b><i><font color=#00abee>" + pyChar[n]
 							+ "</font></i></b>");
 				} else {
 					sbf.append(pyChar[n]);
@@ -97,14 +102,14 @@ public class Util {
 			} catch (Exception e) {
 			}
 			formatString = formatString.replaceFirst("(" + regxString + ")",
-					"<b><font color=#5db43b>$1</font></b>");
+					"<b><font color=#00abee>$1</font></b>");
 			spanned = Html.fromHtml(formatString);
 			break;
 		}
 		// 通过写入的数字拿辨别的
 		case 3:
 			spanned = Html.fromHtml(formatString.replaceFirst(
-					"(" + input + ")", "<font color=#5db43b>$1</font>"));
+					"(" + input + ")", "<font color=#00abee>$1</font>"));
 			break;
 		}
 
@@ -123,7 +128,7 @@ public class Util {
 				// 获取手机联系人
 				Cursor phoneCursor = resolver.query(Phone.CONTENT_URI,
 						PHONES_PROJECTION, null, null, null);
-
+				Bitmap head = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.img_people);
 				if (phoneCursor != null) {
 					while (phoneCursor.moveToNext()) {
 
@@ -159,9 +164,7 @@ public class Util {
 									.openContactPhotoInputStream(resolver, uri);
 							contactPhoto = BitmapFactory.decodeStream(input);
 						} else {
-							contactPhoto = BitmapFactory.decodeResource(
-									mContext.getResources(),
-									R.drawable.img_people);
+							contactPhoto = head;
 						}
 						String LastNamePy = (ConverChineseCharToEn
 								.converterToAllFirstSpellsUppercase(contactName));
@@ -193,25 +196,31 @@ public class Util {
 	 * 
 	 */
 
-	public static void getCallLogs(final Context mContext) {
+	public static void getCallLogs(final Context mContext) {		
 		new Thread() {
 			@Override
 			public void run() {
 				Date date;
-			//	System.out.println("--------->通话记录");
 				ContentResolver cr = mContext.getContentResolver();
 				final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI,
-						new String[] { CallLog.Calls.NUMBER,
-								CallLog.Calls.CACHED_NAME, CallLog.Calls.TYPE,
-								CallLog.Calls.DATE, CallLog.Calls.DURATION },
+						new String[] { CallLog.Calls.NUMBER,CallLog.Calls.CACHED_NAME, CallLog.Calls.TYPE,CallLog.Calls.DATE, CallLog.Calls.DURATION },
 						null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
-			//	System.out.println("---------->cursor.size"+cursor.getCount());
-				for (int i = 0; i < cursor.getCount(); i++) {
-					cursor.moveToPosition(i);
+				if (cursor.getCount() > 100) {
+					num = 100;
+				}else {
+					num = cursor.getCount();
+				}
+				for (int i = 0; i < num; i++) {
+					cursor.moveToPosition(i);				
 					Mdl_CallLog mdl_CallLog = new Mdl_CallLog();
 					mdl_CallLog.setPhoneNum(cursor.getString(0));// 获取手机号					
 					if (TextUtils.isEmpty(cursor.getString(1))) { // 获取姓名
-						mdl_CallLog.setUserName("未知");
+						if (cursor.getString(0).equals("4006320708")) {
+							mdl_CallLog.setUserName("商惠通");
+							
+						}else {
+							mdl_CallLog.setUserName("未知");
+						}
 					} else {
 						mdl_CallLog.setUserName(cursor.getString(1));
 					}
@@ -246,7 +255,6 @@ public class Util {
 									null, null);
 							if (cursor3.moveToFirst()) {
 								byte[] photoicon = cursor3.getBlob(0);
-								System.out.println(photoicon);
 								ByteArrayInputStream inputStream = new ByteArrayInputStream(
 										photoicon);
 								mdl_CallLog.setHead(BitmapFactory
@@ -257,9 +265,9 @@ public class Util {
 					}
 					cursor2.close();
 					Dfine.callLogs.add(mdl_CallLog);
-		//			System.out.println("------->通话记录" + Dfine.callLogs.size());
 				}
 				cursor.close();
+				System.out.println("****>size.calllog:"+Dfine.callLogs.size());
 				/**
 				 * CallLog.Calls.CONTENT_URI （通话记录数据库） CallLog.Calls.NUMBER
 				 * （通话号码） CallLog.Calls.CACHED_NAME （通话人姓名） CallLog.Calls.TYPE

@@ -1,4 +1,4 @@
-package com.shanghui.call.Net;
+ package com.shanghui.call.Net;
 
 import com.shanghui.call.Config;
 /**
@@ -41,6 +41,7 @@ public class NetCallBack{
 			}
 		},Config.KEY_CALLER,caller
 		,Config.KEY_CALLEES,callees
+		,Config.CALLBACKBILLINGNUMBER,caller
 		,Config.KEY_NUMBER,JoinNum
 		,Config.KEY_ASSWORD,JoinPassword);
 	}

@@ -7,12 +7,12 @@ public class Config {
 	public static final String SHANGHUI_URL = "http://www.360shanghui.com/";
 	public static final String E_BOSS_URL = "http://www.e-boss.net/";
 	public static final String CHARSET = "UTF-8";
-	
+	public static final int VERSION = 1;
 	
 	public static final String URL_CALLBACK = "thirdparty/callback.jsp?";
-	public static final String URL_GETCUSTOMER = "thirdparty/getcustomer.jsp?";
-	
+	public static final String URL_GETCUSTOMER = "thirdparty/getcustomer.jsp?";	
 	public static final String URL_PAYBYPHONECARD = "thirdparty/paybyphonecard.jsp?";
+	public static final String URL_UPGRADE = "";
 	public static final String APPID = "com.shanghui.call";
 	public static final String KEY_LOCALCODE = "localcode";
 	public static final String ADDRESS = "http://42.96.133.95:9088/";
@@ -53,21 +53,45 @@ public class Config {
 	public static final String KEY_CALLEES = "callees";
 	
 	public static final String SUCCESS = "0";
+	public static final int SUCCESS_RESULT = 0;
 	public static final long NO_EXIST = 0l;
 	public static final int TYPE_BIND_PHONE = 2;
 	public static final String KEY_NUMBER = "number";
 	public static final String KEY_ASSWORD = "password";
 	public static final String KEY_LOGINNAME = "loginName";
 	public static final String KEY_LOGINPASSWORD = "loginPassword";
+	public static final String NUMBER = "10086";
+	public static final String PASSWORD = "188-amet";
+	public static final String CALLBACKBILLINGNUMBER = "callbackBillingNumber";
+	public static final String KEY_PHONENUM = "phonenum";
+	public static final String KEY_ERRCODE = "errcode";
+	public static final String KEY_DATA = "data";
+	public static final String KEY_VERSION = "version";
+	public static final String KEY_MSG = "msg";
+	public static final String KEY_URL = "url";
+	public static final String KEY_SIGNATURE = "signature";
 	
 	
 	//存取本地区号
 	public static String getCaCheLocalCode(Context context){
-		return context.getSharedPreferences(APPID, Context.MODE_PRIVATE).getString(KEY_LOCALCODE, null);
+		return context.getSharedPreferences(APPID, Context.MODE_PRIVATE).getString(KEY_LOCALCODE, "");
 	}
 	public static void cacheLocalCode(Context context ,String localCode){
 		Editor editor = context.getSharedPreferences(APPID, Context.MODE_PRIVATE).edit();
 		editor.putString(KEY_LOCALCODE, localCode);
+		editor.commit();
+	}
+	/**
+	 * 存取手机号
+	 * @param context
+	 * @return
+	 */
+	public static String getCaChePhoneNum(Context context){
+		return context.getSharedPreferences(APPID, Context.MODE_PRIVATE).getString(KEY_PHONENUM, "");
+	}
+	public static void cachePhoneNum(Context context,String phoneNum){
+		Editor editor = context.getSharedPreferences(APPID, Context.MODE_PRIVATE).edit();
+		editor.putString(KEY_PHONENUM, phoneNum);
 		editor.commit();
 	}
 }

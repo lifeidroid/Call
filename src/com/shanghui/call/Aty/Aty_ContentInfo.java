@@ -3,7 +3,6 @@ package com.shanghui.call.Aty;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +11,7 @@ import android.provider.Contacts.Intents;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,15 +26,15 @@ import com.shanghui.call.Tools.RoundImageView;
 /**
  * 联系人详情
  * 
- * @author shanghui
+ * @author lifeidroid
  */
-public class Aty_ContentInfo extends Activity {
+public class Aty_ContentInfo extends BaseActivity {
 	private RoundImageView iv_head;
-	private TextView tv_name;
 	private TextView tv_title_edit;
+	private TextView tv_title;
 	private TextView tv_num;
 	private Button btn_call;
-	private Button btn_back;
+	private LinearLayout btn_back;
 	private Intent intent;
 	private String name;
 	private String num;
@@ -69,8 +69,6 @@ public class Aty_ContentInfo extends Activity {
 		listContacts = Dfine.contacts;
 		adapter = new Adp_SimCallLog(Aty_ContentInfo.this);
 		getmCallLog();
-		System.out.println("-------->usrId" + userId);
-
 	}
 
 	private void initViews() {
@@ -81,10 +79,11 @@ public class Aty_ContentInfo extends Activity {
 		} else {
 			tv_title_edit.setText("编辑");
 		}
+		tv_title = (TextView)findViewById(R.id.tv_commonTatle);
+		tv_title.setText(name);
 		iv_head = (RoundImageView) findViewById(R.id.iv_atyContentInfo_Head);
-		tv_name = (TextView) findViewById(R.id.tv_atyContentInfo_Name);
 		tv_num = (TextView) findViewById(R.id.tv_atyContentInfo_Num);
-		btn_back = (Button) findViewById(R.id.btn_commonBack);
+		btn_back = (LinearLayout) findViewById(R.id.btn_commonBack);
 		lv_content = (ListView) findViewById(R.id.lv_atyContentInfo_list);
 		iv_call = (RoundImageView) findViewById(R.id.riv_atyContentInfo_call);
 		iv_message = (RoundImageView) findViewById(R.id.riv_atyContentInfo_message);
@@ -92,7 +91,6 @@ public class Aty_ContentInfo extends Activity {
 		lv_content.setAdapter(adapter);
 		adapter.clear();
 		adapter.addAll(mCallLogs);
-		tv_name.setText(name);
 		tv_num.setText(num);
 		if (head != null) {
 			iv_head.setImageBitmap(head);
@@ -128,6 +126,7 @@ public class Aty_ContentInfo extends Activity {
 				}
 			}
 		});
+		//电话按钮
 		iv_call.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -141,6 +140,7 @@ public class Aty_ContentInfo extends Activity {
 				
 			}
 		});
+		//短信按钮
 		iv_message.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -149,6 +149,7 @@ public class Aty_ContentInfo extends Activity {
 
 			}
 		});
+		//分享按钮
 		iv_share.setOnClickListener(new View.OnClickListener() {
 
 			@Override

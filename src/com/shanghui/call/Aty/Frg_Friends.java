@@ -1,9 +1,6 @@
 package com.shanghui.call.Aty;
 
-import com.shanghui.call.R;
-
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
+
+import com.shanghui.call.R;
 /**
  * 通讯录主界面
  * @author shanghui

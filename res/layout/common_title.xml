@@ -2,24 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="50dp"
-    android:background="@color/bule" >
+    android:id="@+id/lay_title"
+    android:background="#5773ed" >
 
-    <Button
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="fill_parent"
+        android:gravity="center"
         android:id="@+id/btn_commonBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/back_selector" />
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="fill_parent"
+            android:src="@drawable/img_back_arror" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:layout_marginLeft="3dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/tv_commonTatle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/content_info"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerInParent="true"
         android:textColor="@color/white" />
 
     <TextView
@@ -27,9 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/white"
+        android:layout_marginRight="10dp"
         android:gravity="center"
-        android:layout_marginRight="10dp" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Call</string>
+    <string name="call">商惠通❤打电话</string>
+    <string name="recent_call">通话记录</string>
+    <string name="refresh">刷新</string>
+    <string name="shanghuitong_call">商惠通拨打</string>
+    <string name="wifi_call">wifi直接拨打</string>
+    <string name="call_cast">充值</string>
+    <string name="out_let">商家商城</string>
+    <string name="qiye_manager">企业管理</string>
+    <string name="setting_local_code">设置区号</string>
+    <string name="please_input_local_code">请输入区号</string>
+    <string name="ok">确定</string>
+    <string name="cacel">取消</string>
+    <string name="local_code_can_not_empty">区号不能为空！</string>
+    <string name="tariff_desc">资费说明</string>
+    <string name="help">使用指南</string>
+    <string name="shanghui_league">商惠联盟</string>
+    <string name="shanghui_gva">商惠官网</string>
+    <string name="feed_back">意见反馈</string>
+    <string name="more_setting">更多设置</string>
+    <string name="content_info">联系人详情</string>
+    <string name="call_status">通话状态</string>
+    <string name="connecting_to_server">正在为您接通，请注意接听来电...</string>
+    <string name="sure_cast">确认充值</string>
+    <string name="please_input_cast_password">请输入充值卡密码</string>
+    <string name="please_input_cast_num">请输入充值卡卡号</string>
+    <string name="please_input_your_phone_num">请输入您的本机号码</string>
+    <string name="please_input_your_phonenum_here">请在这里输入本机号码</string>
+    <string name="make_sure_bind">确认绑定</string>
+
+</resources>

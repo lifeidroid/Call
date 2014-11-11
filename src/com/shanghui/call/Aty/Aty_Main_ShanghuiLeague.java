@@ -1,6 +1,5 @@
 package com.shanghui.call.Aty;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +10,7 @@ import com.shanghui.call.R;
  * @author shanghui
  *
  */
-public class Aty_Main_ShanghuiLeague extends Activity {
+public class Aty_Main_ShanghuiLeague extends BaseActivity {
 	private Button btn_back;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

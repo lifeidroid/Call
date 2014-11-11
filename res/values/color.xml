@@ -19,5 +19,6 @@
     <color name="Orange">#FFA500</color><!-- 橙色 -->
     <color name="press_bule">#15a2d5</color><!-- 按下的蓝色 -->
     <color name="no_press_bule">#46c3f1</color><!-- 未按下的蓝色 -->
+    <color name="GoldEnrod">#DAA520</color><!-- 秋麒麟 -->
     
 </resources>

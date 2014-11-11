@@ -1,13 +1,12 @@
 package com.shanghui.call.Aty;
 
-import com.shanghui.call.R;
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Aty_Main_Help extends Activity {
+import com.shanghui.call.R;
+
+public class Aty_Main_Help extends BaseActivity {
 	private Button btn_back;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

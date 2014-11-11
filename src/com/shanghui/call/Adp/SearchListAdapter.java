@@ -11,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shanghui.call.R;
@@ -29,8 +28,10 @@ import com.shanghui.call.Tools.Util;
 public class SearchListAdapter extends BaseAdapter implements Filterable {
 	private List<Mdl_Contact> dataList = new ArrayList<Mdl_Contact>();
 	private Context mContext ;
-	public SearchListAdapter(Context mC){
+	private View mView;
+	public SearchListAdapter(Context mC,View mView){
 		mContext = mC;
+		this.mView = mView;
 	}
 	
 	@Override
@@ -178,8 +179,10 @@ public class SearchListAdapter extends BaseAdapter implements Filterable {
 				if(list != null && list.size() > 0){
 					dataList.addAll(list);
 					notifyDataSetChanged();
+					mView.findViewById(R.id.lay_ads).setVisibility(View.GONE);
 				}else{
 					notifyDataSetInvalidated();
+					mView.findViewById(R.id.lay_ads).setVisibility(View.VISIBLE);
 				}
 			}
 	

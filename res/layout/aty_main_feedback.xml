@@ -3,28 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-        
-     <RelativeLayout
+
+    <include layout="@layout/common_title" />
+
+    <TextView
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@color/bule" >
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/please_feedback_your_problem_in_app"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/Blank" />
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/btn_atymainfeedback_back"
-            android:background="@drawable/back_selector" />
+    <EditText
+        android:id="@+id/et_feedback_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/et_shape"
+        android:lines="7"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="top"
+        android:padding="3dp"
+        android:hint="@string/write_down_your_opinion_here"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/feed_back"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white" />
-    </RelativeLayout> 
+    <Button
+        android:id="@+id/btn_feedback_send"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_login"
+        android:text="@string/hand_on" />
 
 </LinearLayout>

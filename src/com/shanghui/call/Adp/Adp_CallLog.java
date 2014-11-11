@@ -6,13 +6,11 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.CallLog;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.shanghui.call.Config;
@@ -94,6 +92,7 @@ public class Adp_CallLog extends BaseAdapter {
 			viewHolder.getIv_type().setImageResource(R.drawable.call_missing);
 			break;
 		default:
+			viewHolder.getIv_type().setImageBitmap(null);
 			break;
 		}
 		return convertView;

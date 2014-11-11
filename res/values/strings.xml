@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Call</string>
-    <string name="hello_world">Hello world!</string>
     <string name="call">商惠通❤打电话</string>
     <string name="recent_call">通话记录</string>
     <string name="refresh">刷新</string>
@@ -13,7 +12,7 @@
     <string name="out_let">商家商城</string>
     <string name="qiye_manager">企业管理</string>
     <string name="setting_local_code">设置区号</string>
-    <string name="please_input_local_code">请设置区号</string>
+    <string name="please_input_local_code">请输入区号</string>
     <string name="ok">确定</string>
     <string name="cacel">取消</string>
     <string name="local_code_can_not_empty">区号不能为空！</string>
@@ -25,9 +24,17 @@
     <string name="more_setting">更多设置</string>
     <string name="content_info">联系人详情</string>
     <string name="call_status">通话状态</string>
-    <string name="connecting_to_server">正在连接服务器...</string>
+    <string name="connecting_to_server">正在为您接通，请注意接听来电...</string>
     <string name="sure_cast">确认充值</string>
     <string name="please_input_cast_password">请输入充值卡密码</string>
     <string name="please_input_cast_num">请输入充值卡卡号</string>
+    <string name="please_input_your_phone_num">请输入您的本机号码</string>
+    <string name="please_input_your_phonenum_here">输入本机号码</string>
+    <string name="make_sure_bind">确认绑定</string>
+    <string name="back">返回</string>
+    <string name="please_feedback_your_problem_in_app">请将您使用过程中遇到的问题反馈给我们，以便改善我们的服务质量，感谢您的支持！</string>
+    <string name="hand_on">提交</string>
+    <string name="write_down_your_opinion_here">请将您的宝贵意见留在这里</string>
+    <string name="are_you_sure_exist">您确定要退出账号？</string>
 
 </resources>

@@ -1,6 +1,5 @@
 package com.shanghui.call.Aty;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,7 +14,7 @@ import com.shanghui.call.R;
  * @author shanghui
  *
  */
-public class Aty_Main_QiyeManager extends Activity {
+public class Aty_Main_QiyeManager extends BaseActivity {
 	private Button btn_back;
 	private WebView wb_content;
 	@Override

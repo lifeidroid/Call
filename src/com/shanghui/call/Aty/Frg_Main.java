@@ -1,12 +1,13 @@
 package com.shanghui.call.Aty;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,16 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.shanghui.call.Config;
 import com.shanghui.call.R;
-import com.shanghui.call.Mdl.Dfine;
+import com.shanghui.call.R.color;
 import com.shanghui.call.Net.NetGetCustomer;
-import com.shanghui.call.Tools.AlwaysMarqueeTextView;
+import com.shanghui.call.Tools.AutoScrollTextView;
 /**
  * 主页模块
  * @author shanghui
@@ -31,7 +32,7 @@ import com.shanghui.call.Tools.AlwaysMarqueeTextView;
  */
 public class Frg_Main extends Fragment {
 	private View view;
-	private AlwaysMarqueeTextView tv_text;
+	private AutoScrollTextView tv_text;
 	private ImageView iv_top;
 	private ImageView iv_call_cast;// 话费充值
 	private ImageView iv_outlet;// 折扣店
@@ -49,6 +50,8 @@ public class Frg_Main extends Fragment {
 	private ImageView iv_feedback;// 意见反馈
 	private ImageView iv_more;// 更多设置
 	private static Toast mToast;
+	
+	private boolean scrol;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,14 +69,14 @@ public class Frg_Main extends Fragment {
 	}
 
 	private void initValues() {
-
+		scrol = true;
 	}
 
 	private void initViews() {
-		tv_text = (AlwaysMarqueeTextView) view
-				.findViewById(R.id.tv_frgmain_text);
-		tv_text.setHorizontallyScrolling(true);  
-		tv_text.setFocusable(true); 
+		tv_text = (AutoScrollTextView) view.findViewById(R.id.tv_frgmain_text);
+		tv_text.init(getActivity().getWindowManager());
+		tv_text.startScroll();
+		tv_text.setMovementMethod(LinkMovementMethod.getInstance()); 
 		iv_top = (ImageView) view.findViewById(R.id.iv_frgmain_top);
 		iv_call_cast = (ImageView) view.findViewById(R.id.iv_frgmain_call_cast);
 		iv_outlet = (ImageView) view.findViewById(R.id.iv_frgmain_outlet);
@@ -99,16 +102,21 @@ public class Frg_Main extends Fragment {
 				.findViewById(R.id.iv_frgmain_sever_call);
 		iv_feedback = (ImageView) view.findViewById(R.id.iv_frgmain_feedback);
 		iv_more = (ImageView) view.findViewById(R.id.iv_frgmain_more);
-		tv_text.setFocusable(true);
 	}
 
-	private void initListeners() {
+	private void initListeners() {		
 		// 滚动条
 		tv_text.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-
+				if (scrol) {
+					tv_text.stopScroll();
+					scrol = false;
+				}else {
+					tv_text.startScroll();
+					scrol = true;
+				}
 			}
 		});
 		// 企业定制版本
@@ -174,10 +182,6 @@ public class Frg_Main extends Fragment {
 					
 					@Override
 					public void onClick(View v) {
-						if (TextUtils.isEmpty(et_content.getText())) {
-							showToast(getActivity(), getString(R.string.local_code_can_not_empty), Toast.LENGTH_SHORT);
-							return;
-						}
 						Config.cacheLocalCode(getActivity(), et_content.getText().toString());
 						showToast(getActivity(), "设置区号为："+et_content.getText().toString(), Toast.LENGTH_SHORT);
 						dialog.dismiss();
@@ -226,18 +230,41 @@ public class Frg_Main extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				new NetGetCustomer(Dfine.phoneNum.toString(), new NetGetCustomer.SuccessCallback() {
-					
+				final ProgressDialog pg = new ProgressDialog(getActivity()).show(getActivity(), null, "正在查询请稍等..");
+				new NetGetCustomer(Config.getCaChePhoneNum(getActivity()), new NetGetCustomer.SuccessCallback() {
 					@Override
 					public void onSuccess(String AccountNum, String AccountName,
 							String CurrentBalance, String validity, String overdraft) {
-						// TODO Auto-generated method stub
-						
+						pg.dismiss();
+						final View DialogView = LayoutInflater.from(getActivity()).inflate(
+								R.layout.dlg_query_call, null);
+						final Dialog dialog = new Dialog(getActivity(),R.style.transparentFrameWindowStyle);
+						dialog.setContentView(DialogView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+						dialog.setCanceledOnTouchOutside(true);
+						TextView tv_account_num = (TextView)DialogView.findViewById(R.id.tv_dlgQueryCall_account_num);
+						TextView tv_CurrentBalance = (TextView)DialogView.findViewById(R.id.tv_dlgQueryCall_account_CurrentBalance);
+						TextView tv_validity = (TextView)DialogView.findViewById(R.id.tv_dlgQueryCall_account_validity);
+						TextView tv_overdraft = (TextView)DialogView.findViewById(R.id.tv_dlgQueryCall_account_overdraft);
+						Button btn_cancel = (Button)DialogView.findViewById(R.id.btn_dlgQueryCall_cancel);
+						tv_account_num.setText("账号："+Config.getCaChePhoneNum(getActivity()));
+						tv_CurrentBalance.setText("当前余额："+CurrentBalance);
+						tv_validity.setText("过期时间："+validity);
+						tv_overdraft.setText("透支限额："+overdraft);
+						btn_cancel.setOnClickListener(new View.OnClickListener() {
+							
+							@Override
+							public void onClick(View arg0) {
+								dialog.dismiss();
+								
+							}
+						});
+						dialog.show();
 					}
 				}, new NetGetCustomer.FailCallback() {
 					
 					@Override
 					public void onFail(String error) {
+						pg.dismiss();
 						showToast(getActivity(), error, Toast.LENGTH_LONG);
 						
 					}

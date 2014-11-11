@@ -28,6 +28,8 @@ public class NetConnection{
 				StringBuffer paramsStr = new StringBuffer();
 				for (int i = 0; i < kvs.length; i+= 2) {
 					try {
+						System.out.println("------>kvs:"+kvs[i]);
+						System.out.println("------>kvs:"+kvs[i+1]);
 						paramsStr.append(kvs[i]).append("=").append(URLEncoder.encode(kvs[i+1],"UTF-8")).append("&");
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();

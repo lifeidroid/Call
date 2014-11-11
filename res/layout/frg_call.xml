@@ -17,40 +17,87 @@
         android:singleLine="true"
         android:text="@string/call"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="23sp" />
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
         <ListView
             android:id="@+id/lv_frgCall_Content"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginBottom="60dp"
             android:scrollbars="none" >
         </ListView>
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="10dp" >
+            android:layout_height="fill_parent" >
 
             <ImageView
-                android:id="@+id/iv_frg_call_keymain"
+                android:id="@+id/iv_frgCall_showKeyBoard"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/callup"/>
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/callup" />
         </RelativeLayout>
-
+        <!-- 滚动图片部分 -->
         <RelativeLayout
-            android:id="@+id/lay_keyboard"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
+            <FrameLayout
+                android:id="@+id/lay_ads"
+                android:layout_width="fill_parent"
+                android:layout_height="220dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dip"
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dip"
+                        android:gravity="center" >
+
+                        <View
+                            android:id="@+id/v_dot0"
+                            style="@style/dot_style"
+                            android:background="@drawable/dot_focused" />
+
+                        <View
+                            android:id="@+id/v_dot1"
+                            style="@style/dot_style" />
+
+                        <View
+                            android:id="@+id/v_dot2"
+                            style="@style/dot_style" />
+
+                        <View
+                            android:id="@+id/v_dot3"
+                            style="@style/dot_style" />
+
+                        <View
+                            android:id="@+id/v_dot4"
+                            style="@style/dot_style" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
             <LinearLayout
+                android:id="@+id/lay_keyboard"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -164,36 +211,37 @@
                         android:background="@drawable/key_j" />
                 </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/lay_frgCall_bottom"
                     android:layout_width="fill_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
+                    android:orientation="horizontal"
                     android:background="@color/white" >
 
                     <ImageView
                         android:id="@+id/iv_keyboard_down"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
                         android:src="@drawable/calldown" />
 
                     <ImageView
                         android:id="@+id/iv_key_call"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
                         android:layout_centerHorizontal="true"
-                        android:layout_margin="10dp"
+                        android:background="#4db431"
                         android:src="@drawable/call_image" />
 
                     <ImageView
                         android:id="@+id/iv_key_del"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="70dp"
+                        android:layout_height="fill_parent"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="20dip"
                         android:src="@drawable/del" />
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </FrameLayout>

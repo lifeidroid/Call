@@ -98,10 +98,9 @@ public class Frg_Friends_Mail_list extends Fragment{
 	}
 	private void initValues(){
 		showTitle = true;
-		app_Main = (App_Main) getActivity().getApplication();
-	//	contactList = app_Main.getContactList();
 	}
 	private void initViews() {
+		System.out.println("------>initViews");
 		sortListView = (ListView) view.findViewById(R.id.country_lvcountry);
 		titleLayout = (LinearLayout) view.findViewById(R.id.title_layout);
 		//顶部字母显示
@@ -163,8 +162,6 @@ public class Frg_Friends_Mail_list extends Fragment{
 		});
 		//获取联系人数据
 		SourceDateList.addAll(Dfine.contacts);
-		System.out.println("------>sourcedatalist.size()"+SourceDateList.size());
-		//SourceDateList = filledData(contactList);
 
 		// 根据a-z进行排序源数据
 		Collections.sort(SourceDateList, pinyinComparator);
@@ -218,16 +215,13 @@ public class Frg_Friends_Mail_list extends Fragment{
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 			     switch(scrollState){  
 			        case OnScrollListener.SCROLL_STATE_IDLE://空闲状态  
-			        	System.out.println("---->空闲状态");
 			        	showDialog = false;
 			        	dialog.setVisibility(View.GONE);
 			            break;        
 			        case OnScrollListener.SCROLL_STATE_FLING://滚动状态  
-			        	System.out.println("---->滚动状态");
 			        	showDialog = true;
 			            break;  
 			        case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动  
-			        	System.out.println("---->触摸后滚动");
 			        	showDialog = true;
 			            break;  
 			        }
@@ -246,8 +240,6 @@ public class Frg_Friends_Mail_list extends Fragment{
 				// 当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
 				//filterData(s.toString());
 				if (s.length() > 0) {
-					System.out.println("------>onTextChanged");
-					System.out.println("------->size:"+Dfine.contacts.size());
 					showTitle = false;
 					adapter.getFilter().filter(s);
 				} else {
@@ -272,7 +264,15 @@ public class Frg_Friends_Mail_list extends Fragment{
 	}
 
 
-
+	@Override
+	public void onResume() {
+		SourceDateList.clear();
+		SourceDateList.addAll(Dfine.contacts);
+		// 根据a-z进行排序源数据
+		Collections.sort(SourceDateList, pinyinComparator);
+		adapter.addAll(SourceDateList,true);
+		super.onResume();
+	}
 
 	/**
 	 * 根据ListView的当前位置获取分类的首字母的Char ascii值

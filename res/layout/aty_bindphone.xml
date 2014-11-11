@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/iv_bindphone_title"
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/img_bindphone_title" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/please_input_your_phone_num"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/Blank" />
+
+        <EditText
+            android:id="@+id/et_atyBindPhone_num"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_shape"
+            android:paddingLeft="5dp"
+            android:inputType="phone"
+            android:hint="@string/please_input_your_phonenum_here"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tv_atyBindPhone_Prompt"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_shape"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/btn_atyBindPhone"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_login"
+            android:text="@string/make_sure_bind"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_atyBindPhone_agreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+</LinearLayout>

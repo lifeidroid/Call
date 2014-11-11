@@ -1,10 +1,5 @@
 package com.shanghui.call.Aty;
 
-import com.shanghui.call.R;
-import com.shanghui.call.Mdl.Dfine;
-import com.shanghui.call.Net.Net_PayByPhoneCard;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,12 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.shanghui.call.Config;
+import com.shanghui.call.R;
+import com.shanghui.call.Net.Net_PayByPhoneCard;
 /**
  * 话费充值
  * @author shanghui
  *
  */
-public class Aty_Main_CallCast extends Activity {
+public class Aty_Main_CallCast extends BaseActivity {
 	private Button btn_back;
 	private TextView tv_phoneNum;
 	private EditText et_castNum;
@@ -38,7 +37,7 @@ public class Aty_Main_CallCast extends Activity {
 		initListeners();
 	}
 	private void initValues(){
-		phoneNum = Dfine.phoneNum.toString();
+		phoneNum = Config.getCaChePhoneNum(Aty_Main_CallCast.this);
 	}
 	private void initViews(){
 		btn_back = (Button)findViewById(R.id.btn_atymaincallcast_back);
@@ -78,6 +77,8 @@ public class Aty_Main_CallCast extends Activity {
 					public void onSuccess() {
 						pg.dismiss();
 						showToast(Aty_Main_CallCast.this,"充值成功！" , Toast.LENGTH_SHORT);
+						et_castNum.setText(null);
+						et_castPassword.setText(null);
 					}
 				}, new Net_PayByPhoneCard.FailCallback() {
 					

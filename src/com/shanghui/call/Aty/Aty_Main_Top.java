@@ -1,19 +1,18 @@
 package com.shanghui.call.Aty;
 
-import com.shanghui.call.Config;
-import com.shanghui.call.R;
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.shanghui.call.Config;
+import com.shanghui.call.R;
 /**
  * 企业定制
  * @author shanghui
  *
  */
-public class Aty_Main_Top extends Activity {
+public class Aty_Main_Top extends BaseActivity {
 	private WebView wb_main;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

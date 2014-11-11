@@ -11,8 +11,8 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="270dp"
-        android:background="#9900abee"
+        android:layout_height="230dp"
+        android:background="#5773ed"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -23,14 +23,6 @@
             android:layout_margin="15dp" />
 
         <TextView
-            android:id="@+id/tv_atyContentInfo_Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-
-        <TextView
             android:id="@+id/tv_atyContentInfo_Num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,35 +30,35 @@
             android:textSize="20sp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:layoutAnimation="@anim/anim_call"
-            android:layout_height="fill_parent" >
+            android:orientation="horizontal" >
 
             <com.shanghui.call.Tools.RoundImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/img_call_bg"
                 android:id="@+id/riv_atyContentInfo_call"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/img_call_bg"
                 imagecontrol:border_outside_color="@color/LimeGreen"
                 imagecontrol:border_thickness="1dp" />
 
             <com.shanghui.call.Tools.RoundImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/img_message"
+                android:id="@+id/riv_atyContentInfo_message"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:id="@+id/riv_atyContentInfo_message"
+                android:src="@drawable/img_message"
                 imagecontrol:border_outside_color="@color/Orange"
                 imagecontrol:border_thickness="1dp" />
 
             <com.shanghui.call.Tools.RoundImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/img_share"
                 android:id="@+id/riv_atyContentInfo_share"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/img_share"
                 imagecontrol:border_outside_color="@color/Blank"
                 imagecontrol:border_thickness="1dp" />
         </LinearLayout>
@@ -75,12 +67,12 @@
     <ListView
         android:id="@+id/lv_atyContentInfo_list"
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:scrollbars="@null"
         android:divider="@null"
         android:layoutAnimation="@anim/anim_list"
-        android:layout_height="fill_parent" >
+        android:scrollbars="@null" >
     </ListView>
 
 </LinearLayout>

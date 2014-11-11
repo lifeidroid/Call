@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@drawable/dlg_shape"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:background="@drawable/dlg_title"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/imglogo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温馨提示"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/tv_dlgExist_title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:id="@+id/tv_dlgExist_content"
+        android:background="@color/white"
+        android:text="@string/are_you_sure_exist"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/Blank" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/WhiteSmoke" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_dlgExist_OK"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dlg_send_btn_selector"
+            android:gravity="center"
+            android:text="@string/ok"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/Blank" />
+
+        <TextView
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:background="@color/WhiteSmoke" />
+
+        <Button
+            android:id="@+id/btn_dlgExist_Cancel"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/dlg_cancel_btn_selector"
+            android:gravity="center"
+            android:text="@string/cacel"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/Blank" />
+    </LinearLayout>
+
+</LinearLayout>

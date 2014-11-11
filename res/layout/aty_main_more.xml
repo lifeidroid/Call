@@ -5,28 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@color/bule" >
-
-        <Button
-            android:id="@+id/btn_atymainmore_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/back_selector" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/more_setting"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white" />
-    </RelativeLayout>
+    <include layout="@layout/common_title" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -260,18 +239,22 @@
                 android:src="@drawable/earn_jiantou" />
         </RelativeLayout>
     </LinearLayout>
-            <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="@color/WhiteSmoke" />
-            <Button android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:text="退出登录"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/white"
-                android:background="@drawable/btn_login"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/WhiteSmoke" />
+
+    <Button
+        android:id="@+id/btn_atyMainMore_exit"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_login"
+        android:text="退出登录"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
 
 </LinearLayout>

@@ -59,13 +59,18 @@ public class Frg_records extends Fragment {
 	}
 
 	private void initValues() {
-		//app_Main = (App_Main) getActivity().getApplication();
 		adapter = new Adp_CallLog(getActivity());
-		adapter.clear();
 		System.out.println("------CalllogsSize:"+Dfine.callLogs.size());
+		adapter.clear();
 		adapter.addAll(Dfine.callLogs);
 	}
-
+	@Override
+	public void onResume() {
+		adapter.clear();
+		System.out.println("------->onresume");
+		adapter.addAll(Dfine.callLogs);
+		super.onResume();
+	}
 	private void initViews() {
 		lv_record = (ListView) view.findViewById(R.id.lv_frg_records);
 		lv_record.setAdapter(adapter);
