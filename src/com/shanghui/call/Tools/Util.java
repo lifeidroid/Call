@@ -48,7 +48,6 @@ public class Util {
 	private static final int PHONES_PHOTO_ID_INDEX = 2;
 	// ** 联系人的ID **//*
 	private static final int PHONES_CONTACT_ID_INDEX = 3;
-	private static int num;
 
 	static final String array[] = new String[] { "ABCabc", "DEFdef", "GHIghi",
 			"JKLjkl", "MNOmno", "PQRSpqrs", "TUVtuv", "WXYZwxyz" };
@@ -135,7 +134,6 @@ public class Util {
 						// 得到手机号码
 						String num = phoneCursor.getString(PHONES_NUMBER_INDEX);
 						String phoneNumber = num.replace(" ", "");
-						//String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
 						// 当手机号码为空的或者为空字段 跳过当前循环
 						if (TextUtils.isEmpty(phoneNumber))
 							continue;
@@ -143,7 +141,9 @@ public class Util {
 						// 得到联系人名称
 						String contactName = phoneCursor
 								.getString(PHONES_DISPLAY_NAME_INDEX);
-
+						if (contactName.isEmpty() || "".equals(contactName)) {
+							contactName = phoneNumber;
+						}
 						// 得到联系人ID
 						Long contactid = phoneCursor
 								.getLong(PHONES_CONTACT_ID_INDEX);
@@ -166,8 +166,7 @@ public class Util {
 						} else {
 							contactPhoto = head;
 						}
-						String LastNamePy = (ConverChineseCharToEn
-								.converterToAllFirstSpellsUppercase(contactName));
+						String LastNamePy = (ConverChineseCharToEn.converterToAllFirstSpellsUppercase(contactName));
 						String NamePy = (ConverChineseCharToEn
 								.converterToPingYingHeadUppercase(contactName)
 								.replace("-", ""));
@@ -200,12 +199,13 @@ public class Util {
 		new Thread() {
 			@Override
 			public void run() {
+				int num;
 				Date date;
 				ContentResolver cr = mContext.getContentResolver();
 				final Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI,
 						new String[] { CallLog.Calls.NUMBER,CallLog.Calls.CACHED_NAME, CallLog.Calls.TYPE,CallLog.Calls.DATE, CallLog.Calls.DURATION },
 						null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
-				if (cursor.getCount() > 100) {
+				if (cursor.getCount() >= 100) {
 					num = 100;
 				}else {
 					num = cursor.getCount();
@@ -278,6 +278,13 @@ public class Util {
 				super.run();
 			}
 		}.start();
+	}
+	
+	/**
+	 * 根据ListView的当前位置获取分类的首字母的Char ascii值
+	 */
+	public static int getSectionForPosition(String name) {
+		return name.charAt(0);
 	}
 
 }

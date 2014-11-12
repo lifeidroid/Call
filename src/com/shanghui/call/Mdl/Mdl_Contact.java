@@ -14,7 +14,7 @@ public class Mdl_Contact {
 	private String Name;
 	private String PhoneNum;
 	private Bitmap Head;
-	private String firstNamePy;
+	private String firstNamePy;			//名字第一个字的首字母
 	private String lastNamePy;			//名字每一个字的首字母
 	private String lastNameToNumber;		//名字首字母转成数字	
 	private String namePy;				//名字全拼

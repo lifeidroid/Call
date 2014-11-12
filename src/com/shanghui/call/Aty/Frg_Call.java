@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -36,14 +38,15 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shanghui.call.Config;
 import com.shanghui.call.R;
 import com.shanghui.call.Adp.SearchListAdapter;
+import com.shanghui.call.Mdl.Dfine;
 import com.shanghui.call.Mdl.Mdl_Contact;
+import com.shanghui.call.Net.NetGetImage;
 /**
  * 打电话界面
  * @author shanghui
@@ -127,18 +130,29 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 		imageViews = new ArrayList<ImageView>();
 
 		// 初始化图片资源
-		for (int i = 0; i < imageResId.length; i++) {
-			ImageView imageView = new ImageView(getActivity());
-			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
-			final int j = i;
-			imageViews.add(imageView);
-			imageView.setOnClickListener(new View.OnClickListener() {				
-				public void onClick(View v) {
-					Toast.makeText(getActivity(), "-------->"+j, 1000).show();
-					
-				}
-			});
+		if (Dfine.mData != null) {
+			for (int i = 0; i < Dfine.mData.getCall_banner().size(); i++) {
+				ImageView imageView = new ImageView(getActivity());
+				imageView.setTag(i);
+				AsyncImageLoad(imageView, Dfine.mData.getCall_banner().get(i).getIco());
+				imageView.setScaleType(ScaleType.CENTER_CROP);
+				final int j = i;
+				imageViews.add(imageView);
+				imageView.setOnClickListener(new View.OnClickListener() {				
+					public void onClick(View v) {
+						Toast.makeText(getActivity(), Dfine.mData.getCall_banner().get(j).getUrl(), 1000).show();
+						Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(Dfine.mData.getCall_banner().get(j).getUrl()));
+						startActivity(intent);
+					}
+				});
+			}
+		}else {
+			for (int i = 0; i < imageResId.length; i++) {
+				ImageView imageView = new ImageView(getActivity());
+				imageView.setImageResource(imageResId[i]);
+				imageView.setScaleType(ScaleType.CENTER_CROP);
+				imageViews.add(imageView);
+			}
 		}
 	}
 
@@ -186,8 +200,7 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 		viewPager.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				System.out.println("----->"+currentItem);
-				
+		
 			}
 		});
 		
@@ -516,6 +529,35 @@ public class Frg_Call extends Fragment implements View.OnClickListener {
 
 		}
 	}
+	/**
+	 * 异步加载图片
+	 * @param ivHead 要加载的ImageView
+	 * @param path 图片的地址
+	 */
+	
+	private void AsyncImageLoad(ImageView ivHead, String path) {
+		AsyncImageTask asyncImageTask = new AsyncImageTask(ivHead);
+		asyncImageTask.execute(path);
+	}
+	private class AsyncImageTask extends AsyncTask<String, Integer, Uri>{
+		private ImageView imageView;
+		public AsyncImageTask(ImageView imageView) {
+			this.imageView = imageView;
+		}
+		@Override
+		protected Uri doInBackground(String... arg0) {	//运行在子线程中
+			Uri uri = NetGetImage.getImage(arg0[0],Dfine.cachePath);
+			return uri;
+		}
+		@Override
+		protected void onPostExecute(Uri result) {		//运行在主线程中
+			if (result != null && imageView != null) {
+				imageView.setImageURI(result);
+			}
+		}
+		
+	}
+	
 	
 	@Override
 	public void onStart() {

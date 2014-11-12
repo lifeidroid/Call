@@ -19,8 +19,7 @@
             <ImageView
                 android:id="@+id/iv_frgmain_top"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/settings_top_bg" />
+                android:layout_height="223dp"/>
 
             <com.shanghui.call.Tools.AutoScrollTextView
                 android:id="@+id/tv_frgmain_text"

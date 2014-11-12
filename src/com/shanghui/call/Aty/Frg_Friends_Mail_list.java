@@ -198,7 +198,9 @@ public class Frg_Friends_Mail_list extends Fragment{
 					MarginLayoutParams params = (MarginLayoutParams) titleLayout.getLayoutParams();
 					params.topMargin = 0;
 					titleLayout.setLayoutParams(params);
-					title.setText(SourceDateList.get(getPositionForSection(section)).getFirstNamePy());
+					if (getPositionForSection(section) != -1) {						
+						title.setText(SourceDateList.get(getPositionForSection(section)).getFirstNamePy());
+					}
 				}
 				lastFirstVisibleItem = firstVisibleItem;
 				}

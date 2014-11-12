@@ -59,7 +59,7 @@ public class SideBar extends View {
 			paint.setTextSize(25);
 			// 选中的状态
 			if (i == choose) {
-				paint.setColor(Color.parseColor("#00abee"));
+				paint.setColor(Color.parseColor("#5773ed"));
 				paint.setFakeBoldText(true);
 			}
 			// x坐标等于中间-字符串宽度的一半.

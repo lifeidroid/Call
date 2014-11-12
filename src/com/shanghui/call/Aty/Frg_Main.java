@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.LinkMovementMethod;
@@ -22,8 +23,9 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.shanghui.call.Config;
 import com.shanghui.call.R;
-import com.shanghui.call.R.color;
+import com.shanghui.call.Mdl.Dfine;
 import com.shanghui.call.Net.NetGetCustomer;
+import com.shanghui.call.Net.NetGetImage;
 import com.shanghui.call.Tools.AutoScrollTextView;
 /**
  * 主页模块
@@ -74,10 +76,20 @@ public class Frg_Main extends Fragment {
 
 	private void initViews() {
 		tv_text = (AutoScrollTextView) view.findViewById(R.id.tv_frgmain_text);
+		if (Dfine.mData != null) {
+			tv_text.setText(Dfine.mData.getApp().getNotice());
+			System.out.println("----->"+Dfine.mData.getApp().getNotice());
+		}
 		tv_text.init(getActivity().getWindowManager());
 		tv_text.startScroll();
 		tv_text.setMovementMethod(LinkMovementMethod.getInstance()); 
 		iv_top = (ImageView) view.findViewById(R.id.iv_frgmain_top);
+		if (Dfine.mData != null) {
+			System.out.println("----->main_banner:"+Dfine.mData.getMain_banner().get(0).getIco());
+			AsyncImageLoad(iv_top, Dfine.mData.getMain_banner().get(1).getIco());
+		}else {
+			iv_top.setImageResource(R.drawable.img_banner);
+		}
 		iv_call_cast = (ImageView) view.findViewById(R.id.iv_frgmain_call_cast);
 		iv_outlet = (ImageView) view.findViewById(R.id.iv_frgmain_outlet);
 		iv_chat = (ImageView) view.findViewById(R.id.iv_frgmain_chat);
@@ -330,6 +342,41 @@ public class Frg_Main extends Fragment {
 
 		mToast.show();
 	}
+	
+	/**
+	 * 异步加载图片
+	 * @param ivHead 要加载的ImageView
+	 * @param path 图片的地址
+	 */
+	
+	private void AsyncImageLoad(ImageView ivHead, String path) {
+		AsyncImageTask asyncImageTask = new AsyncImageTask(ivHead);
+		asyncImageTask.execute(path);
+	}
+	private class AsyncImageTask extends AsyncTask<String, Integer, Uri>{
+		private ImageView imageView;
+		public AsyncImageTask(ImageView imageView) {
+			this.imageView = imageView;
+		}
+		@Override
+		protected Uri doInBackground(String... arg0) {	//运行在子线程中
+			Uri uri = NetGetImage.getImage(arg0[0],Dfine.cachePath);
+			return uri;
+		}
+		@Override
+		protected void onPostExecute(Uri result) {		//运行在主线程中
+			if (result != null && imageView != null) {
+				imageView.setImageURI(result);
+			}
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * 触发分享界面
+	 */
 	 private void showShare() {
 	        ShareSDK.initSDK(getActivity());
 	        OnekeyShare oks = new OnekeyShare();

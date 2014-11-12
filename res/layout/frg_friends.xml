@@ -19,7 +19,7 @@
             <RadioButton
                 android:id="@+id/rb_frgFriend_mailList"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="32dp"
                 android:background="@drawable/rb_left"
                 android:text="通讯录"
                 android:gravity="center"
@@ -30,7 +30,7 @@
             <RadioButton
                 android:id="@+id/rb_frgFriend_friendList"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="32dp"
                 android:background="@drawable/rb_right"
                 android:text="好友"
                 android:gravity="center"

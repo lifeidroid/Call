@@ -7,7 +7,7 @@ import com.shanghui.call.Config;
 
 public class NetUpgrade {
 	public NetUpgrade(String message,final SuccessCallback successCallback,final FailCallback failCallback) {
-		new NetConnection(Config.ADDRESS+Config.URL_UPGRADE, HttpMethod.POST, new NetConnection.SuccessCallback() {
+		new NetConnection(Config.URL_UPGRADE, HttpMethod.POST, new NetConnection.SuccessCallback() {
 			
 			@Override
 			public void onSuccess(String result) {
@@ -20,11 +20,9 @@ public class NetUpgrade {
 							if (successCallback != null) {
 								successCallback.onSuccess(dataObj.getInt(Config.KEY_VERSION),
 										dataObj.getString(Config.KEY_MSG),
-										dataObj.getString(Config.KEY_URL),
-										dataObj.getString(Config.KEY_SIGNATURE));
+										dataObj.getString(Config.KEY_URL));
 							}
 							break;
-
 						default:
 							if (failCallback != null) {
 								failCallback.onFail();
@@ -52,10 +50,10 @@ public class NetUpgrade {
 				}
 				
 			}
-		});
+		},Config.KEY_ACTION,Config.ACT_UPDATA);
 	}
 	public static interface SuccessCallback{
-		void onSuccess(int version,String msg,String downloadUrl,String signature);
+		void onSuccess(int version,String msg,String downloadUrl);
 	}
 	public static interface FailCallback{
 		void onFail();
